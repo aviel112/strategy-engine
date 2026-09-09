@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>אבחון שיווקי לעסק — מנוע האסטרטגיה</title>
+<title>אבחון שיווקי לעסק — ממי פרודקשיין</title>
 <meta name="theme-color" content="#0a0a0c">
 <meta name="description" content="25 שאלות שממפות את העסק שלך ומחזירות תוכנית שיווק מותאמת אישית: מיצוב, פלטפורמות, תמהיל תוכן, קצב העלאה ומשפך מכירה.">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -351,7 +351,7 @@ footer{text-align:center;color:var(--tx3);font-size:12px;padding:34px 0 10px;fon
 
 <!-- ============ INTRO ============ -->
 <section id="intro">
-  <span class="eyebrow"><span class="dot"></span>אבחון שיווקי · 25 שאלות</span>
+  <span class="eyebrow"><span class="dot"></span>ממי פרודקשיין · אבחון שיווקי</span>
   <h1>העסק שלך טוב.<br><span class="grad">השיווק שלו לא מספר את זה.</span></h1>
   <p class="lede">
     25 שאלות שממפות את מי אתה, מה אתה מוכר, למי, ובכמה — ומחזירות
@@ -417,16 +417,15 @@ footer{text-align:center;color:var(--tx3);font-size:12px;padding:34px 0 10px;fon
    הגדרות — לערוך כאן
    ═══════════════════════════════════════════════════════════ */
 const CFG = {
-  /* יעד הלידים — ריק בינתיים. כשיהיה CRM ייעודי, להדביק כאן.
-     בינתיים הליד נשמר בדפדפן של המשתמש בלבד (localStorage) ולא נשלח לשום מקום. */
-  CRM_URL:   "",
-  SHEET_URL: "",                    /* Apps Script /exec — אופציונלי */
+  CRM_URL:   "",                    /* לא בשימוש — הלידים הולכים לגיליון */
+  /* ← כאן להדביק את כתובת ה-/exec מ-Apps Script (ראה apps-script.gs) */
+  SHEET_URL: "",
   FUNNEL:    "strategy-engine",
-  AI_URL:    "",                    /* כתובת ה-proxy. ריק = מנוע כללים בלבד */
+  AI_URL:    "",                    /* ← כתובת ה-proxy של Gemini. ריק = כללים בלבד */
   MEETING:   "",                    /* לינק קביעת פגישה. ריק = וואטסאפ */
   WHATSAPP:  "972546894648",
-  BRAND:     "אבחון שיווקי לעסק",
-  SIGN:      "",                    /* שורת חתימה בפוטר */
+  BRAND:     "ממי פרודקשיין",
+  SIGN:      "ממי פרודקשיין · אסטרטגיה, תוכן והפקות",
   PRICE_TXT: "בעלות מינימלית"
 };
 
@@ -1082,6 +1081,16 @@ function engine(a){
 }
 
 /* ═══════════════════════════════════════════════════════════
+   קידוד בטוח ל-URL של אובייקט עם עברית
+   ═══════════════════════════════════════════════════════════ */
+function b64_(o){
+  const bytes = new TextEncoder().encode(JSON.stringify(o));
+  let bin = '';
+  bytes.forEach(c => bin += String.fromCharCode(c));
+  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+
+/* ═══════════════════════════════════════════════════════════
    GATE — לכידת הליד
    ═══════════════════════════════════════════════════════════ */
 function normPhone(raw){
@@ -1111,6 +1120,16 @@ $('#gBtn').onclick = async () => {
   $('#gBtn').textContent = 'בונה לך את הניתוח...'; $('#gBtn').disabled = true;
 
   const R = engine(A);
+
+  /* קוד קומפקטי שנטען ישירות במחולל הגאנט — נשלח לגיליון ולמייל */
+  const SOCIAL = ['אינסטגרם','טיקטוק','פייסבוק','לינקדאין'];
+  const chan = (R.platforms.find(x => x.tier === 1 && SOCIAL.indexOf(x.name) > -1) || {}).name
+               || 'אינסטגרם';
+  const ganttCode = 'SE1-' + b64_({
+    b: biz, m: R.model, c: chan, f: R.feed, s: R.stories, l: R.lowPrice,
+    o: A.objection, p: A.pain, e: A.edge, g: R.magnets[0]
+  });
+
   const lead = {
     firstName:first, lastName:last, name:(first+' '+last).trim(),
     phone:phone, business:biz, instagram: ig ? '@'+ig : '',
@@ -1128,7 +1147,9 @@ $('#gBtn').onclick = async () => {
       'כאב: ' + (A.pain||''),
       'בידול: ' + (A.edge||'')
     ].join(' • '),
-    answers: A, score: R.score
+    answers: A, score: R.score,
+    modelName: R.modelName, revGap: Math.round(R.revGap),
+    ganttCode: ganttCode
   };
 
   /* אין יעד מוגדר — שומרים מקומית כדי שלא ילך לאיבוד */

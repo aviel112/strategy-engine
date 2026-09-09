@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>מחולל הגאנט — כלי פנימי</title>
+<title>מחולל הגאנט — ממי פרודקשיין</title>
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#0a0a0c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +28,18 @@ input,select,textarea{font-family:inherit;font-size:15px}
   letter-spacing:.13em;color:var(--gold);background:var(--goldDim);
   border:1px solid rgba(212,164,65,.3);padding:6px 14px;border-radius:99px;margin-bottom:18px}
 .dot{width:6px;height:6px;border-radius:99px;background:var(--gold)}
+
+/* paste */
+.paste{background:linear-gradient(135deg,rgba(212,164,65,.09),transparent);
+  border:1px solid rgba(212,164,65,.3);border-radius:14px;padding:16px 17px;margin-bottom:22px}
+.paste label{display:block;font-size:14px;font-weight:900;margin-bottom:3px}
+.paste .hint{font-size:12.5px;color:var(--tx3);font-weight:300;margin:0 0 11px}
+.prow{display:flex;gap:9px}
+.prow .fld{flex:1;direction:ltr;text-align:left;font-family:ui-monospace,monospace;font-size:12.5px}
+.prow .btn{flex:0 0 auto}
+.pmsg{margin:9px 0 0;font-size:13px;font-weight:500;display:none}
+.pmsg.ok{color:var(--ok);display:block}
+.pmsg.bad{color:var(--bad);display:block}
 
 /* form */
 #form h1{font-size:clamp(26px,5.5vw,38px);margin-bottom:10px}
@@ -135,6 +147,16 @@ footer{text-align:center;color:var(--tx3);font-size:12px;padding:30px 0 0;font-w
     ממלא את מה שיצא בדוח האבחון של הלקוח — ומקבל חודש עבודה שלם:
     תאריך, ערוץ, נושא, הוק ומטרת פעולה. זה מה שהוא מקבל בפגישה.
   </p>
+
+  <div class="paste">
+    <label>יש לך קוד מהדוח?</label>
+    <p class="hint">הקוד מגיע במייל ובגיליון עם כל ליד. הדבק אותו וכל השדות ימולאו לבד.</p>
+    <div class="prow">
+      <input class="fld" id="code" placeholder="SE1-..." spellcheck="false">
+      <button class="btn sm" id="load">טען</button>
+    </div>
+    <p class="pmsg" id="pmsg"></p>
+  </div>
 
   <div class="fg">
     <div class="f"><label>שם העסק</label>
@@ -423,7 +445,7 @@ function render(D, rows){
     o.appendChild(sec);
   });
 
-  $('#foot').textContent = 'נבנה ממחולל הגאנט · ' + D.biz;
+  $('#foot').textContent = 'ממי פרודקשיין · תוכנית עבודה ל-' + D.biz;
   window.scrollTo(0,0);
 
   document.getElementById('copy').onclick = () => {
@@ -443,6 +465,40 @@ function render(D, rows){
     document.getElementById('copy').textContent = 'הועתק ✓';
   };
 }
+
+/* ── טעינת קוד מהדוח ── */
+function unb64_(c){
+  c = c.replace(/-/g,'+').replace(/_/g,'/');
+  const bin = atob(c);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return JSON.parse(new TextDecoder().decode(bytes));
+}
+
+$('#load').onclick = () => {
+  const msg = $('#pmsg');
+  const raw = $('#code').value.trim();
+  if (!raw){ msg.className = 'pmsg bad'; msg.textContent = 'הדבק קוד קודם.'; return; }
+  try {
+    const d = unb64_(raw.replace(/^SE1-/, ''));
+    $('#biz').value   = d.b || '';
+    $('#model').value = d.m || 'service';
+    $('#chan').value  = d.c || 'אינסטגרם';
+    $('#feed').value  = String(d.f || 3);
+    $('#st').value    = String(d.s || 4);
+    $('#low').value   = d.l || '';
+    $('#obj').value   = d.o || 'price';
+    $('#pain').value  = d.p || '';
+    $('#edge').value  = d.e || '';
+    $('#mag').value   = d.g || '';
+    msg.className = 'pmsg ok';
+    msg.textContent = '✓ נטען: ' + (d.b || '') + '. אפשר לערוך כל שדה לפני שבונים.';
+  } catch(e){
+    msg.className = 'pmsg bad';
+    msg.textContent = 'הקוד לא תקין. ודא שהעתקת אותו במלואו.';
+  }
+};
+$('#code').addEventListener('keydown', e => { if (e.key === 'Enter') $('#load').click(); });
 
 $('#go').onclick = build;
 /* ברירת מחדל: יום ראשון הקרוב */
