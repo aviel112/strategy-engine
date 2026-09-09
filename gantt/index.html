@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>מחולל הגאנט — כלי פנימי</title>
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0a0a0c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0a0c;--card:#16161d;--card2:#1d1d26;--line:#2a2a35;--line2:#3a3a48;
+  --tx:#f2f2f5;--tx2:#a5a5b4;--tx3:#6e6e80;--gold:#d4a441;--gold2:#f0c368;
+  --goldDim:rgba(212,164,65,.12);--ok:#3fbf8f;--bad:#e2634f}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:'Heebo',system-ui,sans-serif;background:var(--bg);color:var(--tx);
+  line-height:1.6;font-size:16px;
+  background-image:radial-gradient(800px 400px at 85% -5%,rgba(212,164,65,.09),transparent 60%);
+  background-attachment:fixed}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 18px 70px}
+h1,h2,h3{margin:0;font-weight:900;letter-spacing:-.02em;line-height:1.25}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit;font-size:15px}
+.grad{background:linear-gradient(105deg,var(--gold2),var(--gold) 55%,#8f6d24);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:700;
+  letter-spacing:.13em;color:var(--gold);background:var(--goldDim);
+  border:1px solid rgba(212,164,65,.3);padding:6px 14px;border-radius:99px;margin-bottom:18px}
+.dot{width:6px;height:6px;border-radius:99px;background:var(--gold)}
+
+/* form */
+#form h1{font-size:clamp(26px,5.5vw,38px);margin-bottom:10px}
+#form>p.sub{color:var(--tx2);font-size:15px;font-weight:300;margin:0 0 26px;max-width:62ch}
+.fg{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-bottom:16px}
+.f label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
+.f .hint{font-size:12px;color:var(--tx3);font-weight:300;margin:-3px 0 6px}
+.fld{width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:11px;
+  padding:12px 13px;color:var(--tx);outline:none;transition:.15s}
+.fld:focus{border-color:var(--gold);background:var(--card2)}
+.fld::placeholder{color:var(--tx3);font-weight:300}
+textarea.fld{min-height:70px;resize:vertical}
+select.fld{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--tx3) 50%),
+  linear-gradient(135deg,var(--tx3) 50%,transparent 50%);
+  background-position:calc(0% + 16px) 50%,calc(0% + 21px) 50%;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));color:#17130a;font-weight:900;
+  font-size:16px;padding:15px 26px;border-radius:12px;
+  box-shadow:0 8px 26px -8px rgba(212,164,65,.45);transition:.15s}
+.btn:active{transform:scale(.985)}
+.btn.sm{font-size:13.5px;padding:10px 17px;box-shadow:none}
+.btn.ghost{background:transparent;border:1px solid var(--line2);color:var(--tx2);font-weight:500}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.err{color:var(--bad);font-size:13.5px;margin-top:10px;display:none;font-weight:500}
+
+/* output */
+#out{display:none}
+.ohead{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;
+  flex-wrap:wrap;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.ohead h2{font-size:clamp(22px,4.6vw,30px)}
+.ohead .m{font-size:13.5px;color:var(--tx2);font-weight:300;margin-top:5px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:26px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:14px}
+.kpi b{display:block;font-size:24px;font-weight:900;color:var(--gold2);line-height:1.1}
+.kpi span{display:block;font-size:12px;color:var(--tx2);margin-top:4px;font-weight:400}
+
+.wk{margin-bottom:26px}
+.wk-h{display:flex;align-items:center;gap:11px;margin-bottom:12px;flex-wrap:wrap}
+.wk-h .n{font-size:11px;font-weight:700;letter-spacing:.11em;color:var(--gold);
+  background:var(--goldDim);border:1px solid rgba(212,164,65,.28);padding:4px 11px;border-radius:99px}
+.wk-h h3{font-size:19px}
+.wk-h em{font-style:normal;font-size:13px;color:var(--tx2);font-weight:300}
+
+.tbl{width:100%;border-collapse:collapse;background:var(--card);
+  border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.tscroll{overflow-x:auto;border-radius:14px}
+.tbl th{background:var(--card2);font-size:11.5px;font-weight:700;letter-spacing:.06em;
+  color:var(--tx2);text-align:right;padding:11px 13px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:13px;border-bottom:1px solid var(--line);vertical-align:top;font-size:14px}
+.tbl tr:last-child td{border-bottom:none}
+.tbl .dt{white-space:nowrap;font-weight:700;font-variant-numeric:tabular-nums}
+.tbl .dt small{display:block;font-weight:400;font-size:11.5px;color:var(--tx3)}
+.tbl .ch{white-space:nowrap;font-size:12.5px;font-weight:700;color:var(--gold2)}
+.tbl .tp b{display:block;font-size:14.5px;margin-bottom:4px}
+.tbl .tp p{margin:0;font-size:13px;color:var(--tx2);font-weight:300;line-height:1.5}
+.tbl .tp .hk{display:block;margin-top:7px;font-size:12.5px;color:var(--gold);font-weight:400;
+  background:var(--goldDim);border-radius:8px;padding:7px 10px;line-height:1.45}
+.tbl .go{font-size:12.5px;color:var(--tx2);font-weight:300;min-width:110px}
+.tbl tr.mile td{background:linear-gradient(90deg,rgba(212,164,65,.09),transparent)}
+.rl{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.07em;padding:2px 7px;
+  border-radius:99px;background:var(--line);color:var(--tx2);margin-left:6px;vertical-align:2px}
+.rl.k{background:rgba(96,165,250,.16);color:#93c5fd}
+.rl.l{background:rgba(244,114,182,.16);color:#f9a8d4}
+.rl.t{background:rgba(63,191,143,.16);color:#6ee7b7}
+.rl.b{background:rgba(212,164,65,.2);color:var(--gold2)}
+
+.stories{background:var(--card);border:1px solid var(--line);border-radius:14px;
+  padding:18px;margin-top:12px}
+.stories h4{margin:0 0 4px;font-size:15px;font-weight:900}
+.stories>p{margin:0 0 13px;font-size:13px;color:var(--tx3);font-weight:300}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.sc{background:var(--card2);border:1px solid var(--line);border-radius:11px;padding:12px 13px}
+.sc b{display:block;font-size:12.5px;color:var(--gold2);margin-bottom:4px}
+.sc p{margin:0;font-size:13px;color:var(--tx2);font-weight:300;line-height:1.5}
+
+footer{text-align:center;color:var(--tx3);font-size:12px;padding:30px 0 0;font-weight:300}
+
+@media print{
+  body{background:#fff;color:#000;background-image:none}
+  .wrap{max-width:none;padding:0}
+  .noprint{display:none!important}
+  .tbl,.kpi,.stories,.sc{background:#fff;border-color:#ccc}
+  .tbl th{background:#f4f4f4;color:#333}
+  .tbl td,.tbl th{border-color:#ddd}
+  .tbl .tp p,.tbl .go,.sc p,.kpi span{color:#444}
+  .tbl .ch,.kpi b,.sc b{color:#8a6a1e}
+  .tbl .tp .hk{background:#faf5e8;color:#6b5214}
+  .wk{break-inside:avoid}
+  .wk-h .n{color:#8a6a1e;background:#faf5e8;border-color:#e0cf9f}
+  h1,h2,h3,h4{color:#000}
+  .grad{color:#8a6a1e;-webkit-text-fill-color:#8a6a1e}
+  .ohead{border-color:#ccc}
+}
+@media(max-width:560px){.tbl .go{display:none}.tbl th:last-child{display:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<section id="form">
+  <span class="eyebrow"><span class="dot"></span>כלי פנימי · לא לשליחה ללקוח</span>
+  <h1>מחולל <span class="grad">הגאנט</span></h1>
+  <p class="sub">
+    ממלא את מה שיצא בדוח האבחון של הלקוח — ומקבל חודש עבודה שלם:
+    תאריך, ערוץ, נושא, הוק ומטרת פעולה. זה מה שהוא מקבל בפגישה.
+  </p>
+
+  <div class="fg">
+    <div class="f"><label>שם העסק</label>
+      <input class="fld" id="biz" placeholder="לדוגמה: סטודיו אביאל"></div>
+    <div class="f"><label>תאריך התחלה</label>
+      <input class="fld" id="start" type="date"></div>
+  </div>
+
+  <div class="fg">
+    <div class="f"><label>מודל עסקי</label>
+      <select class="fld" id="model">
+        <option value="service">שירות אישי</option>
+        <option value="product1">מוצר אחד מרכזי</option>
+        <option value="store">חנות רב־מוצרית</option>
+        <option value="digital">מוצר דיגיטלי</option>
+        <option value="local">עסק מקומי פיזי</option>
+      </select></div>
+    <div class="f"><label>ערוץ ליבה</label>
+      <select class="fld" id="chan">
+        <option>אינסטגרם</option><option>טיקטוק</option>
+        <option>פייסבוק</option><option>לינקדאין</option>
+      </select></div>
+    <div class="f"><label>ההתנגדות החוזרת</label>
+      <select class="fld" id="obj">
+        <option value="price">״יקר לי״</option>
+        <option value="know">״לא מכיר אותך״</option>
+        <option value="what">״לא הבנתי מה אתה נותן״</option>
+        <option value="comp">״יש זול יותר״</option>
+        <option value="time">״לא עכשיו״</option>
+      </select></div>
+  </div>
+
+  <div class="fg">
+    <div class="f"><label>פריטים לפיד בשבוע</label>
+      <select class="fld" id="feed">
+        <option>2</option><option selected>3</option><option>4</option>
+        <option>5</option><option>6</option>
+      </select></div>
+    <div class="f"><label>סטוריז ביום</label>
+      <select class="fld" id="st">
+        <option>3</option><option selected>4</option><option>5</option><option>6</option>
+      </select></div>
+    <div class="f"><label>מחיר מוצר החדירה</label>
+      <input class="fld" id="low" type="number" placeholder="149"></div>
+  </div>
+
+  <div class="fg">
+    <div class="f"><label>הכאב שהוא פותר</label>
+      <p class="hint">במילים של הלקוח שלו</p>
+      <textarea class="fld" id="pain" placeholder="אנשים מנסים לרדת במשקל שנים ונשברים אחרי חודש כי הם לבד"></textarea></div>
+    <div class="f"><label>הבידול שלו</label>
+      <p class="hint">הדבר האחד שרק אצלו</p>
+      <textarea class="fld" id="edge" placeholder="אני מתאמן יחד עם הלקוח ולא עומד מהצד"></textarea></div>
+    <div class="f"><label>הפיתיון החינמי</label>
+      <p class="hint">מה הוא נותן בחינם תמורת פרטים</p>
+      <textarea class="fld" id="mag" placeholder="מדריך: 5 טעויות שעוצרות ירידה במשקל"></textarea></div>
+  </div>
+
+  <p class="err" id="err"></p>
+  <div class="row"><button class="btn" id="go">בנה לי את החודש ←</button></div>
+</section>
+
+<section id="out"></section>
+<footer class="noprint" id="foot"></footer>
+</div>
+
+<script>
+const $ = s => document.querySelector(s);
+const DAYS = ['ראשון','שני','שלישי','רביעי','חמישי','שישי','שבת'];
+
+/* ══ מאגר התוכן — לפי מודל עסקי ותפקיד במשפך ══
+   {p} = הכאב · {e} = הבידול · {m} = הפיתיון · {price} = מחיר החדירה  */
+const POOL = {
+service:{
+ know:[['הטעות הנפוצה','לפרק טעות אחת שכמעט כולם עושים סביב: {p}. להסביר למה היא הגיונית ולמה היא לא עובדת.','״אם {p} — הבעיה כנראה לא אצלך.״'],
+       ['3 סימנים שאתה בכיוון הלא נכון','שלושה סימנים מהירים, אחד אחרי השני, בלי הקדמה.','״שלושה סימנים שאתה מבזבז את הזמן שלך — והשלישי הכי כואב.״'],
+       ['שאלה שחוזרת אליי בהודעות','לבחור שאלה אמיתית שחזרה השבוע ולענות עליה במלואה.','״כל שבוע שואלים אותי את זה. אז בואו נסגור את זה.״'],
+       ['מה באמת עולה לא לטפל בזה','לכמת את המחיר של חוסר מעש — בזמן, בכסף, בתסכול.','״זה לא עולה לך כלום לא לעשות כלום. עד שזה כן.״']],
+ like:[['יום בחיים','לתעד יום עבודה אמיתי — כולל החלק המשעמם. קריינות מעל.','״ככה נראה יום שלי בפועל. בלי פילטרים.״'],
+       ['למה בכלל התחלתי','הסיפור האישי, בגוף ראשון, בלי מוזיקה דרמטית.','״לא התחלתי כי זה עסק טוב. התחלתי כי הייתי שם.״'],
+       ['משהו לא קשור לעסק','דעה, תחביב, רגע אישי. זה מה שהופך אותך מספק לבנאדם.','״זה לא קשור לעבודה שלי בכלל. אבל זה מי שאני.״'],
+       ['הטעות שאני עשיתי','משהו שטעית בו והשתנית בגללו. פגיעות בונה אמון מהר יותר מסמכות.','״עשיתי את זה לא נכון שנתיים. זה מה שלמדתי.״']],
+ trust:[['לפני ואחרי, עם המספרים','תוצאה אחת עם נתונים אמיתיים וטווח הזמן שלקח. בלי הגזמות.','״זה מה שקרה ב-90 יום. כולל מה שלא הלך.״'],
+       ['לקוח מספר בעצמו','שלוש שאלות: איך היה לפני, ממה חששת, מה קרה בפועל. לחתוך ל-40 שניות.','״לא אני אספר לכם. הוא יספר.״'],
+       ['צילומי מסך של הודעות','אוסף הודעות אמיתיות, מטושטשות שמות. הכי אמין שיש.','״ההודעות האלה שוות יותר מכל מה שאני אגיד.״'],
+       ['איך אני עובד, שלב אחר שלב','לפרק את התהליך שלך בפומבי. מה שנראה מסתורי — לא נקנה.','״זה בדיוק מה שקורה מהרגע שפונים אליי.״']],
+ value:[['הדבר שאני מסביר הכי הרבה','לקחת את ההסבר שאתה חוזר עליו כל שבוע ולעשות ממנו תוכן אחד ומדויק.','״אני מסביר את זה חמש פעמים בשבוע. אז הנה, פעם אחת לכולם.״'],
+       ['השלב הראשון — תעשה אותו לבד','לתת בפועל את הצעד הראשון, במלואו, בחינם.','״אל תשלם לי. תעשה קודם את זה.״']],
+ buy:[['הפיתיון','להציג את {m} ולבקש תגובה אחת במילה. אוטומציה שולחת.','״כתבו לי ״רוצה״ ואשלח לכם את זה לפרטי.״'],
+       ['ההצעה הישירה','להגיד בדיוק מה אתה מציע, למי זה מתאים, ולמי לא.','״זה לא מתאים לכולם. אז בואו נדבר על מי כן.״'],
+       ['לפרק את ההתנגדות','להתמודד חזיתית עם ההתנגדות ולהראות את החישוב.','״כל פעם אומרים לי {obj}. אז בואו נדבר על זה בכנות.״']]},
+
+product1:{
+ know:['הרגע שהמוצר עושה את שלו','המוצר בפעולה בשלוש השניות הראשונות. בלי לוגו, בלי הקדמה.','״תראו מה קורה כאן.״'],
+ like:['איך המוצר נולד','הגרסה הראשונה, מה לא עבד, כמה זרקת.','״הגרסה הראשונה הייתה אסון. הנה היא.״'],
+ trust:['לקוחות מצלמים בעצמם','אוסף UGC אמיתי. ממיר פי כמה ממודעה מעוצבת.','״לא צילמתי את זה. הם צילמו.״'],
+ value:['השוואה כנה מול הזול','למה שלך עולה יותר — ומתי דווקא לא כדאי לקנות אותו.','״אם אתם רק צריכים X — אל תקנו אצלי.״'],
+ buy:['ההצעה','{m} תמורת תגובה, ואז המוצר.','״כתבו ״מעניין״ ואשלח.״']},
+
+store:{
+ know:['3 מוצרים ל...','לבחור קטגוריה ולסגור אותה ב-20 שניות.','״שלושה דברים שאתם צריכים ל-X. מוכנים?״'],
+ like:['מאחורי הקלעים של החנות','איך אורזים, איך בוחרים מלאי, מה קורה ביום עמוס.','״ככה נראית הזמנה מהרגע שלחצתם.״'],
+ trust:['לקוחות עם המוצר בבית','תיוגים ואוסף קבוע בהיילייטס.','״זה אצלכם בבית. תודה.״'],
+ value:['מה מתאים למי','מדריך בחירה קצר לפי צורך.','״לא יודעים מה לבחור? שנייה.״'],
+ buy:['דרופ / מלאי','קולקציה, אזל, חזר למלאי — טריגרים אמיתיים בלבד.','״נשארו X. לא מגזים, זה המספר.״']},
+
+digital:{
+ know:['לפרק אמונה מקובלת','״כולם אומרים X — וזה לא נכון״. בלי לרכך.','״זה מה שמלמדים אתכם. וזה מה שבאמת עובד.״'],
+ like:['הדרך שלי אל זה','מה לא ידעת, כמה זמן לקח, מה עלה לך.','״לקח לי שלוש שנים להבין את מה שאני עומד להגיד ב-40 שניות.״'],
+ trust:['תלמיד ותוצאה','שם, פנים, מה השתנה אצלו.','״הוא התחיל בדיוק מאיפה שאתם.״'],
+ value:['שיעור שלם, בחינם','ללמד משהו ישים במלואו. התוכן שלך הוא הדגמה של המוצר.','״זה שיעור מלא מתוך הקורס. קחו.״'],
+ buy:['פתיחת מחזור','תאריך סגירה אמיתי ובונוס לנרשמים ראשונים.','״נסגר ביום חמישי. לא מאריך.״']},
+
+local:{
+ know:['המקום בפריים הראשון','המרחב עצמו, בלי הקדמה. אנשים בוחרים מקומי לפי תחושה.','״זה המקום. תיכנסו רגע.״'],
+ like:['הצוות והאווירה','מי עובד כאן, מה קורה כשסוגרים.','״זה הצוות שיפגוש אתכם.״'],
+ trust:['לקוח קבוע מהאזור','כמה זמן הוא בא ולמה הוא נשאר.','״הוא בא לכאן ארבע שנים. שאלתי אותו למה.״'],
+ value:['מה כדאי לדעת לפני','מדריך מקומי קצר לפני שמגיעים.','״לפני שאתם מגיעים — שתי דקות.״'],
+ buy:['זמינות אמיתית','תור שהתפנה, הטבה לתושבי האזור.','״התפנה תור למחר. ראשון שכותב.״']}
+};
+
+/* מודלים שאינם service מקבלים מערך יחיד — עוטפים לרשימה */
+function pick(model, role, i){
+  const m = POOL[model] || POOL.service;
+  let arr = m[role] || POOL.service[role] || POOL.service.know;
+  if (arr.length && !Array.isArray(arr[0])) arr = [arr];
+  return arr[i % arr.length];
+}
+
+const WEEKS = [
+  {n:'שבוע 1', t:'השקה וחשיפה', s:'להגיע לזרים ולהגיד מי אתה. אפס מכירה.',
+   roles:['know','like','know','trust','know','know']},
+  {n:'שבוע 2', t:'אמון והוכחה', s:'להראות שזה עובד. פה נשברת ההתנגדות.',
+   roles:['trust','know','trust','like','trust','know']},
+  {n:'שבוע 3', t:'ערך וסמכות', s:'ללמד בחינם ולהפיץ את הפיתיון. פה נאספים הלידים.',
+   roles:['value','know','buy','value','trust','know']},
+  {n:'שבוע 4', t:'קהילה ומעורבות', s:'לדבר איתם, לא אליהם. מכינים את הקרקע להצעה.',
+   roles:['like','trust','know','value','like','trust']},
+  {n:'שבוע 5', t:'המרה', s:'עכשיו מוכרים. אחרי ארבעה שבועות זה כבר לא מרגיש כמו מכירה.',
+   roles:['buy','trust','buy','know','buy','buy']}
+];
+
+/* פריסת ימים בשבוע לפי כמות הפריטים (0=ראשון) */
+const SPREAD = {2:[0,3], 3:[0,2,4], 4:[0,1,3,4], 5:[0,1,2,3,4], 6:[0,1,2,3,4,6]};
+
+const ROLE_LBL = {know:['חשיפה','k'], like:['חיבור','l'], trust:['אמון','t'],
+                  value:['ערך','t'], buy:['רכישה','b']};
+const GOALS = {know:'הגעה לקהל קר', like:'חיבור רגשי ואהדה', trust:'שבירת ההתנגדות',
+               value:'ביסוס סמכות', buy:'איסוף ליד / סגירה'};
+
+const OBJ_TXT = {price:'״יקר לי״', know:'״לא מכיר אותך״', what:'״לא הבנתי מה אתה נותן״',
+                 comp:'״יש זול יותר״', time:'״לא עכשיו״'};
+
+function fill(str, D){
+  return str.replace(/\{p\}/g, D.pain).replace(/\{e\}/g, D.edge)
+            .replace(/\{m\}/g, D.mag).replace(/\{price\}/g, D.low)
+            .replace(/\{obj\}/g, OBJ_TXT[D.obj]);
+}
+
+function build(){
+  const D = {
+    biz:$('#biz').value.trim(), model:$('#model').value, chan:$('#chan').value,
+    obj:$('#obj').value, feed:+$('#feed').value, st:+$('#st').value,
+    low:$('#low').value.trim() || '149',
+    pain:$('#pain').value.trim(), edge:$('#edge').value.trim(), mag:$('#mag').value.trim(),
+    start:$('#start').value
+  };
+  let e = '';
+  if (!D.biz) e = 'מלא שם עסק.';
+  else if (!D.start) e = 'בחר תאריך התחלה.';
+  else if (D.pain.length < 6) e = 'מלא את הכאב שהעסק פותר.';
+  else if (D.edge.length < 6) e = 'מלא את הבידול.';
+  else if (D.mag.length < 4) e = 'מלא מה הפיתיון החינמי.';
+  if (e){ $('#err').textContent = e; $('#err').style.display = 'block'; return; }
+  $('#err').style.display = 'none';
+
+  const d0 = new Date(D.start + 'T12:00:00');
+  const spread = SPREAD[D.feed] || SPREAD[3];
+  const rows = [];      /* {date, week, role, topic, desc, hook, goal, mile} */
+  let counter = {know:0, like:0, trust:0, value:0, buy:0};
+
+  for (let w = 0; w < 5; w++){
+    const W = WEEKS[w];
+    for (let i = 0; i < D.feed; i++){
+      const day = new Date(d0);
+      day.setDate(d0.getDate() + w*7 + spread[i]);
+      const role = W.roles[i % W.roles.length];
+      const item = pick(D.model, role, counter[role]++);
+      rows.push({w:w, date:day, role:role,
+        topic: fill(item[0], D), desc: fill(item[1], D), hook: fill(item[2], D),
+        goal: GOALS[role],
+        mile: (w===0 && i===0) || (w===2 && role==='buy') || (w===4 && i===0)});
+    }
+  }
+  render(D, rows);
+}
+
+function render(D, rows){
+  const o = $('#out'); o.innerHTML = ''; o.style.display = 'block';
+  $('#form').style.display = 'none';
+
+  const fmt = d => d.getDate() + '/' + (d.getMonth()+1);
+  const last = rows[rows.length-1].date;
+
+  const h = document.createElement('div');
+  h.className = 'ohead';
+  h.innerHTML =
+    '<div><span class="eyebrow"><span class="dot"></span>תוכנית עבודה · 30 יום</span>' +
+    '<h2>' + D.biz + '</h2>' +
+    '<p class="m">' + fmt(rows[0].date) + ' — ' + fmt(last) + ' · ערוץ ליבה: ' + D.chan +
+    ' · ' + D.feed + ' לפיד בשבוע, ' + D.st + ' סטוריז ביום</p></div>' +
+    '<div class="row noprint">' +
+    '<button class="btn sm" onclick="window.print()">שמור כ-PDF</button>' +
+    '<button class="btn sm ghost" id="copy">העתק כטקסט</button>' +
+    '<button class="btn sm ghost" onclick="location.reload()">חדש</button></div>';
+  o.appendChild(h);
+
+  const k = document.createElement('div');
+  k.className = 'kpis';
+  k.innerHTML =
+    '<div class="kpi"><b>' + rows.length + '</b><span>פריטי תוכן לפיד</span></div>' +
+    '<div class="kpi"><b>' + (D.st * 35) + '</b><span>סטוריז בחודש</span></div>' +
+    '<div class="kpi"><b>' + rows.filter(r=>r.role==='buy').length + '</b><span>נקודות מכירה</span></div>' +
+    '<div class="kpi"><b>' + D.low + ' ₪</b><span>מוצר החדירה</span></div>';
+  o.appendChild(k);
+
+  WEEKS.forEach((W, wi) => {
+    const set = rows.filter(r => r.w === wi);
+    if (!set.length) return;
+    const sec = document.createElement('div'); sec.className = 'wk';
+    const hh = document.createElement('div'); hh.className = 'wk-h';
+    hh.innerHTML = '<span class="n">' + W.n + '</span>';
+    const t = document.createElement('h3'); t.textContent = W.t; hh.appendChild(t);
+    const em = document.createElement('em'); em.textContent = W.s; hh.appendChild(em);
+    sec.appendChild(hh);
+
+    const sc = document.createElement('div'); sc.className = 'tscroll';
+    const tb = document.createElement('table'); tb.className = 'tbl';
+    tb.innerHTML = '<thead><tr><th>תאריך</th><th>ערוץ</th><th>נושא ופעילות</th><th>מטרת פעולה</th></tr></thead>';
+    const body = document.createElement('tbody');
+    set.forEach(r => {
+      const tr = document.createElement('tr');
+      if (r.mile) tr.className = 'mile';
+      const rl = ROLE_LBL[r.role];
+      tr.innerHTML =
+        '<td class="dt">' + r.date.getDate() + '/' + (r.date.getMonth()+1) +
+          '<small>' + DAYS[r.date.getDay()] + '</small></td>' +
+        '<td class="ch"></td>' +
+        '<td class="tp"><b></b><span class="rl ' + rl[1] + '">' + rl[0] + '</span>' +
+          '<p></p><span class="hk"></span></td>' +
+        '<td class="go"></td>';
+      tr.querySelector('.ch').textContent = D.chan;
+      tr.querySelector('b').textContent = r.topic;
+      tr.querySelector('p').textContent = r.desc;
+      tr.querySelector('.hk').textContent = 'הוק: ' + r.hook;
+      tr.querySelector('.go').textContent = r.goal;
+      body.appendChild(tr);
+    });
+    tb.appendChild(body); sc.appendChild(tb); sec.appendChild(sc);
+
+    /* סטוריז השבוע */
+    const stv = document.createElement('div'); stv.className = 'stories';
+    stv.innerHTML = '<h4>סטוריז — ' + D.st + ' ביום, כל יום</h4>' +
+      '<p>לא ' + D.st + ' סטוריז אקראיים. ארבעה תפקידים, בסדר הזה.</p>';
+    const sg = document.createElement('div'); sg.className = 'sgrid';
+    const SP = [
+      ['1 · חשיפה', 'רגע מהיום — משהו שקורה עכשיו. בלי עריכה, עם פנים.'],
+      ['2 · ערך',   wi===2 ? 'טיפ קצר, ובסוף להפנות אל ' + D.mag + '.' : 'טיפ אחד קצר שאפשר ליישם היום.'],
+      ['3 · אמון',  'עדות, הודעה, תוצאה או מאחורי הקלעים של עבודה אמיתית.'],
+      ['4 · מעורבות', wi===4 ? 'סקר או שאלה שמובילה ישירות להצעה.' : 'סקר, תיבת שאלות או ״מה אתם מעדיפים״.']
+    ].slice(0, Math.min(4, D.st));
+    SP.forEach(x => {
+      const c = document.createElement('div'); c.className = 'sc';
+      const b = document.createElement('b'); b.textContent = x[0];
+      const p = document.createElement('p'); p.textContent = x[1];
+      c.appendChild(b); c.appendChild(p); sg.appendChild(c);
+    });
+    if (D.st > 4){
+      const c = document.createElement('div'); c.className = 'sc';
+      const b = document.createElement('b'); b.textContent = '5+ · חופשי';
+      const p = document.createElement('p');
+      p.textContent = 'מה שקורה באמת. סטורי לא מתוכנן הוא לרוב זה שעונים עליו.';
+      c.appendChild(b); c.appendChild(p); sg.appendChild(c);
+    }
+    stv.appendChild(sg); sec.appendChild(stv);
+    o.appendChild(sec);
+  });
+
+  $('#foot').textContent = 'נבנה ממחולל הגאנט · ' + D.biz;
+  window.scrollTo(0,0);
+
+  document.getElementById('copy').onclick = () => {
+    let txt = 'תוכנית עבודה — ' + D.biz + '\n' +
+      fmt(rows[0].date) + ' עד ' + fmt(last) + ' · ' + D.chan + '\n\n';
+    WEEKS.forEach((W, wi) => {
+      const set = rows.filter(r => r.w === wi);
+      if (!set.length) return;
+      txt += '── ' + W.n + ': ' + W.t + ' ──\n' + W.s + '\n\n';
+      set.forEach(r => {
+        txt += r.date.getDate() + '/' + (r.date.getMonth()+1) + ' (' + DAYS[r.date.getDay()] + ') · ' +
+          D.chan + '\n  ' + r.topic + ' [' + ROLE_LBL[r.role][0] + ']\n  ' + r.desc +
+          '\n  הוק: ' + r.hook + '\n  מטרה: ' + r.goal + '\n\n';
+      });
+    });
+    navigator.clipboard.writeText(txt);
+    document.getElementById('copy').textContent = 'הועתק ✓';
+  };
+}
+
+$('#go').onclick = build;
+/* ברירת מחדל: יום ראשון הקרוב */
+(function(){
+  const d = new Date();
+  d.setDate(d.getDate() + ((7 - d.getDay()) % 7 || 7));
+  $('#start').value = d.toISOString().slice(0,10);
+})();
+</script>
+</body>
+</html>

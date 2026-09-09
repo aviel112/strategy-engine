@@ -417,7 +417,9 @@ footer{text-align:center;color:var(--tx3);font-size:12px;padding:34px 0 10px;fon
    הגדרות — לערוך כאן
    ═══════════════════════════════════════════════════════════ */
 const CFG = {
-  CRM_URL:   "https://aviel-crm-production.up.railway.app/api/leads",
+  /* יעד הלידים — ריק בינתיים. כשיהיה CRM ייעודי, להדביק כאן.
+     בינתיים הליד נשמר בדפדפן של המשתמש בלבד (localStorage) ולא נשלח לשום מקום. */
+  CRM_URL:   "",
   SHEET_URL: "",                    /* Apps Script /exec — אופציונלי */
   FUNNEL:    "strategy-engine",
   AI_URL:    "",                    /* כתובת ה-proxy. ריק = מנוע כללים בלבד */
@@ -1128,6 +1130,14 @@ $('#gBtn').onclick = async () => {
     ].join(' • '),
     answers: A, score: R.score
   };
+
+  /* אין יעד מוגדר — שומרים מקומית כדי שלא ילך לאיבוד */
+  if (!CFG.CRM_URL && !CFG.SHEET_URL){
+    try {
+      const prev = JSON.parse(localStorage.getItem('se_leads') || '[]');
+      prev.push(lead); localStorage.setItem('se_leads', JSON.stringify(prev.slice(-50)));
+    } catch(e){}
+  }
 
   const sends = [];
   if (CFG.CRM_URL) sends.push(fetch(CFG.CRM_URL, {
