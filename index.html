@@ -1,0 +1,1585 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>אבחון שיווקי לעסק — מנוע האסטרטגיה</title>
+<meta name="theme-color" content="#0a0a0c">
+<meta name="description" content="25 שאלות שממפות את העסק שלך ומחזירות תוכנית שיווק מותאמת אישית: מיצוב, פלטפורמות, תמהיל תוכן, קצב העלאה ומשפך מכירה.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta property="og:title" content="אבחון שיווקי לעסק">
+<meta property="og:description" content="קבל תוכנית שיווק מותאמת לעסק שלך תוך 5 דקות.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0c; --bg2:#111116; --card:#16161d; --card2:#1d1d26;
+  --line:#2a2a35; --line2:#3a3a48;
+  --tx:#f2f2f5; --tx2:#a5a5b4; --tx3:#6e6e80;
+  --gold:#d4a441; --gold2:#f0c368; --goldDim:rgba(212,164,65,.12);
+  --ok:#3fbf8f; --warn:#e8a33d; --bad:#e2634f;
+  --r:16px; --r2:22px;
+  --max:820px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:'Heebo',system-ui,-apple-system,'Segoe UI',sans-serif;
+  background:var(--bg); color:var(--tx);
+  line-height:1.65; font-size:16px;
+  overflow-x:hidden;
+  background-image:
+    radial-gradient(900px 500px at 80% -8%, rgba(212,164,65,.10), transparent 60%),
+    radial-gradient(700px 500px at 10% 100%, rgba(63,191,143,.07), transparent 60%);
+  background-attachment:fixed;
+}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 18px 90px}
+h1,h2,h3{margin:0;font-weight:900;line-height:1.25;letter-spacing:-.02em}
+p{margin:0}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,textarea,select{font-family:inherit;font-size:16px}
+
+/* ============ INTRO ============ */
+#intro{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:48px 0 40px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.14em;
+  color:var(--gold);background:var(--goldDim);border:1px solid rgba(212,164,65,.3);
+  padding:7px 15px;border-radius:99px;margin-bottom:24px;align-self:flex-start}
+.dot{width:6px;height:6px;border-radius:99px;background:var(--gold);box-shadow:0 0 10px var(--gold)}
+#intro h1{font-size:clamp(32px,7.5vw,54px);margin-bottom:18px}
+.grad{background:linear-gradient(105deg,var(--gold2),var(--gold) 55%,#8f6d24);
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{font-size:clamp(16px,4.2vw,19px);color:var(--tx2);max-width:56ch;margin-bottom:32px;font-weight:300}
+.lede b{color:var(--tx);font-weight:500}
+.bullets{display:grid;gap:12px;margin-bottom:36px}
+.bul{display:flex;gap:13px;align-items:flex-start;background:var(--card);border:1px solid var(--line);
+  padding:15px 17px;border-radius:var(--r)}
+.bul .ic{width:30px;height:30px;flex:0 0 30px;border-radius:9px;background:var(--goldDim);
+  display:grid;place-items:center;font-size:15px;border:1px solid rgba(212,164,65,.25)}
+.bul b{display:block;font-size:15px;font-weight:700;margin-bottom:2px}
+.bul span{font-size:13.5px;color:var(--tx2);font-weight:300;line-height:1.5}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+  background:linear-gradient(135deg,var(--gold2),var(--gold));color:#17130a;
+  font-weight:900;font-size:17px;padding:18px 24px;border-radius:14px;
+  box-shadow:0 10px 30px -8px rgba(212,164,65,.5);transition:.18s;letter-spacing:-.01em}
+.btn:active{transform:scale(.985)}
+.btn:disabled{opacity:.5;box-shadow:none}
+.btn.ghost{background:transparent;border:1px solid var(--line2);color:var(--tx2);
+  box-shadow:none;font-weight:500;font-size:15px;padding:15px}
+.meta{text-align:center;font-size:13px;color:var(--tx3);margin-top:14px}
+
+/* ============ QUIZ ============ */
+#quiz{display:none;padding-top:0}
+.bar{position:sticky;top:0;z-index:30;background:rgba(10,10,12,.9);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);margin:0 -18px;padding:12px 18px 11px}
+.bar .row{display:flex;justify-content:space-between;align-items:center;font-size:12px;
+  color:var(--tx3);margin-bottom:9px;font-weight:500}
+.bar .row b{color:var(--gold);font-weight:700}
+.track{height:4px;background:var(--line);border-radius:99px;overflow:hidden}
+.fill{height:100%;width:0;border-radius:99px;
+  background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .4s cubic-bezier(.4,0,.2,1)}
+
+.step{padding:30px 0 10px;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.step>.st-h{margin-bottom:26px}
+.st-n{font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--gold);margin-bottom:9px}
+.st-h h2{font-size:clamp(24px,5.6vw,32px);margin-bottom:8px}
+.st-h p{color:var(--tx2);font-size:14.5px;font-weight:300}
+
+.q{margin-bottom:30px}
+.q>label{display:block;font-size:16.5px;font-weight:700;margin-bottom:5px}
+.q .hint{font-size:13px;color:var(--tx3);margin-bottom:13px;font-weight:300}
+.opts{display:grid;gap:9px}
+.opts.two{grid-template-columns:1fr 1fr}
+.opt{display:flex;align-items:center;gap:11px;background:var(--card);border:1.5px solid var(--line);
+  padding:14px 15px;border-radius:13px;transition:.15s;text-align:right;width:100%;font-size:15px}
+.opt:active{transform:scale(.99)}
+.opt .mark{width:19px;height:19px;flex:0 0 19px;border-radius:50%;border:2px solid var(--line2);transition:.15s}
+.opt .txt{flex:1}
+.opt .txt b{display:block;font-weight:600;line-height:1.35}
+.opt .txt span{display:block;font-size:12.5px;color:var(--tx3);font-weight:300;margin-top:1px;line-height:1.4}
+.opt.on{border-color:var(--gold);background:linear-gradient(135deg,rgba(212,164,65,.13),rgba(212,164,65,.05))}
+.opt.on .mark{border-color:var(--gold);background:var(--gold);box-shadow:inset 0 0 0 3.5px var(--card)}
+.opt.on .txt b{color:var(--gold2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{background:var(--card);border:1.5px solid var(--line);padding:10px 15px;border-radius:99px;
+  font-size:14.5px;font-weight:500;transition:.15s}
+.chip.on{border-color:var(--gold);background:var(--goldDim);color:var(--gold2)}
+.chip:disabled{opacity:.38}
+.fld{width:100%;background:var(--card);border:1.5px solid var(--line);border-radius:13px;
+  padding:14px 15px;color:var(--tx);outline:none;transition:.15s}
+.fld:focus{border-color:var(--gold);background:var(--card2)}
+.fld::placeholder{color:var(--tx3);font-weight:300}
+textarea.fld{min-height:96px;resize:vertical;line-height:1.6}
+.money{position:relative}
+.money .fld{padding-left:44px}
+.money .cur{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--tx3);font-weight:700}
+.err{color:var(--bad);font-size:13.5px;margin-top:9px;display:none;font-weight:500}
+.nav{display:flex;gap:10px;margin-top:34px;padding-bottom:20px}
+.nav .btn{flex:1}
+.nav .back{flex:0 0 54px;background:var(--card);border:1px solid var(--line);border-radius:14px;
+  display:grid;place-items:center;font-size:20px;color:var(--tx2)}
+
+/* ============ GATE ============ */
+#gate{display:none;min-height:100svh;padding:44px 0;flex-direction:column;justify-content:center}
+.lock{width:56px;height:56px;border-radius:16px;background:var(--goldDim);border:1px solid rgba(212,164,65,.3);
+  display:grid;place-items:center;font-size:25px;margin-bottom:22px}
+#gate h2{font-size:clamp(26px,6vw,36px);margin-bottom:12px}
+#gate .sub{color:var(--tx2);font-size:15.5px;margin-bottom:28px;font-weight:300;max-width:48ch}
+.gfields{display:grid;gap:12px;margin-bottom:8px}
+.gfields .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.priv{font-size:12.5px;color:var(--tx3);text-align:center;margin-top:16px;font-weight:300}
+
+/* ============ REPORT ============ */
+#report{display:none;padding-top:34px}
+.rep-h{text-align:center;margin-bottom:34px}
+.rep-h .eyebrow{align-self:center}
+.rep-h h1{font-size:clamp(27px,6.2vw,40px);margin-bottom:10px}
+.rep-h p{color:var(--tx2);font-size:15px;font-weight:300}
+
+.sec{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);
+  padding:26px 22px;margin-bottom:16px;position:relative;overflow:hidden}
+.sec::before{content:'';position:absolute;top:0;right:0;left:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.5}
+.sec-t{display:flex;align-items:center;gap:11px;margin-bottom:8px}
+.sec-t .ic{width:34px;height:34px;flex:0 0 34px;border-radius:10px;background:var(--goldDim);
+  border:1px solid rgba(212,164,65,.25);display:grid;place-items:center;font-size:16px}
+.sec-t h3{font-size:19px}
+.sec-t .n{font-size:11px;color:var(--tx3);font-weight:700;letter-spacing:.1em;display:block}
+.sec>p.lead{color:var(--tx2);font-size:14.5px;font-weight:300;margin-bottom:18px}
+
+/* score */
+.score-wrap{display:flex;align-items:center;gap:22px;flex-wrap:wrap;justify-content:center;text-align:center}
+.gauge{position:relative;width:150px;height:150px;flex:0 0 150px}
+.gauge svg{transform:rotate(-90deg)}
+.gauge .val{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gauge .val b{font-size:44px;font-weight:900;line-height:1;letter-spacing:-.03em}
+.gauge .val span{font-size:11px;color:var(--tx3);letter-spacing:.1em;font-weight:700;margin-top:3px}
+.score-txt{flex:1;min-width:200px;text-align:right}
+.score-txt h4{font-size:20px;font-weight:900;margin:0 0 6px}
+.score-txt p{font-size:14px;color:var(--tx2);font-weight:300}
+.subscores{display:grid;gap:9px;margin-top:22px}
+.ss{display:grid;grid-template-columns:88px 1fr 36px;align-items:center;gap:11px;font-size:13px}
+.ss .lbl{color:var(--tx2);font-weight:500}
+.ss .tr{height:6px;background:var(--line);border-radius:99px;overflow:hidden}
+.ss .fl{height:100%;border-radius:99px;transition:width .9s cubic-bezier(.4,0,.2,1);width:0}
+.ss .pc{text-align:left;color:var(--tx3);font-weight:700;font-size:12px}
+
+/* positioning */
+.quote{background:linear-gradient(135deg,rgba(212,164,65,.1),rgba(212,164,65,.03));
+  border:1px solid rgba(212,164,65,.3);border-radius:var(--r);padding:22px 20px;
+  font-size:clamp(17px,4.3vw,21px);font-weight:700;line-height:1.5;letter-spacing:-.01em}
+.quote .mk{color:var(--gold);font-size:30px;line-height:0;vertical-align:-8px}
+
+/* platforms */
+.plat{display:grid;gap:11px}
+.pf{display:flex;gap:13px;align-items:flex-start;background:var(--card2);border:1px solid var(--line);
+  border-radius:14px;padding:15px}
+.pf.main{border-color:rgba(212,164,65,.4);background:linear-gradient(135deg,rgba(212,164,65,.1),transparent)}
+.pf.no{opacity:.6}
+.pf .em{font-size:22px;flex:0 0 auto;line-height:1.3}
+.pf .b{flex:1}
+.pf .tag{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.09em;padding:3px 9px;
+  border-radius:99px;margin-bottom:5px}
+.tag.t1{background:var(--gold);color:#17130a}
+.tag.t2{background:var(--line2);color:var(--tx2)}
+.tag.t3{background:rgba(226,99,79,.18);color:var(--bad)}
+.pf b{display:block;font-size:15.5px;margin-bottom:3px}
+.pf span{font-size:13.5px;color:var(--tx2);font-weight:300;line-height:1.5}
+
+/* mix bars */
+.mix{display:grid;gap:13px}
+.mx .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}
+.mx .top b{font-size:15px;font-weight:700}
+.mx .top i{font-style:normal;color:var(--gold);font-weight:900;font-size:15px}
+.mx .tr{height:9px;background:var(--line);border-radius:99px;overflow:hidden}
+.mx .fl{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold2));
+  width:0;transition:width 1s cubic-bezier(.4,0,.2,1)}
+.mx p{font-size:13px;color:var(--tx2);font-weight:300;margin-top:5px;line-height:1.5}
+
+/* cadence */
+.cad{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.cd{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:18px 15px;text-align:center}
+.cd b{display:block;font-size:34px;font-weight:900;color:var(--gold2);line-height:1;letter-spacing:-.03em}
+.cd span{display:block;font-size:13px;color:var(--tx2);font-weight:500;margin-top:6px}
+.cd i{display:block;font-style:normal;font-size:11.5px;color:var(--tx3);font-weight:300;margin-top:3px}
+
+/* funnel */
+.fun{display:grid;gap:10px}
+.fs{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:15px 16px;
+  border-right:3px solid var(--gold)}
+.fs.gap{border-right-color:var(--bad)}
+.fs .h{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:5px}
+.fs .h b{font-size:15.5px}
+.fs .h em{font-style:normal;font-size:10.5px;font-weight:700;letter-spacing:.08em;padding:3px 9px;
+  border-radius:99px;background:rgba(63,191,143,.16);color:var(--ok);white-space:nowrap}
+.fs.gap .h em{background:rgba(226,99,79,.16);color:var(--bad)}
+.fs p{font-size:13.5px;color:var(--tx2);font-weight:300;line-height:1.55}
+
+/* numbers */
+.nums{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.nm{background:var(--card2);border:1px solid var(--line);border-radius:13px;padding:15px 13px}
+.nm b{display:block;font-size:23px;font-weight:900;color:var(--gold2);line-height:1.15;letter-spacing:-.02em}
+.nm span{display:block;font-size:12px;color:var(--tx2);font-weight:400;margin-top:4px;line-height:1.4}
+.chain{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:17px}
+.chain .cr{display:flex;align-items:center;gap:11px;padding:9px 0;font-size:14px}
+.chain .cr+.cr{border-top:1px dashed var(--line)}
+.chain .cr .k{color:var(--tx2);flex:1;font-weight:300}
+.chain .cr .v{font-weight:900;color:var(--tx);font-size:16px}
+
+/* gap */
+.gapbox{background:linear-gradient(135deg,rgba(226,99,79,.1),transparent);
+  border:1px solid rgba(226,99,79,.3);border-radius:var(--r);padding:19px;margin-top:14px}
+.gapbox.ok{background:linear-gradient(135deg,rgba(63,191,143,.1),transparent);border-color:rgba(63,191,143,.3)}
+.gapbox b{display:block;font-size:16px;margin-bottom:6px;color:var(--bad)}
+.gapbox.ok b{color:var(--ok)}
+.gapbox p{font-size:14px;color:var(--tx2);font-weight:300;line-height:1.6}
+
+/* ideas */
+.ideas{display:grid;gap:11px}
+.id{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:13px}
+.id .n{width:26px;height:26px;flex:0 0 26px;border-radius:8px;background:var(--gold);color:#17130a;
+  display:grid;place-items:center;font-weight:900;font-size:13px}
+.id b{display:block;font-size:15.5px;margin-bottom:4px}
+.id p{font-size:13.5px;color:var(--tx2);font-weight:300;line-height:1.55}
+.id em{font-style:normal;display:inline-block;font-size:11px;color:var(--gold);font-weight:700;
+  letter-spacing:.06em;margin-top:7px;background:var(--goldDim);padding:3px 9px;border-radius:99px}
+
+/* anchor images */
+.anchor{margin:18px -22px 0;background:var(--bg2);border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);display:none}
+.anchor.has{display:block}
+.anchor img{width:100%;display:block}
+.anchor figcaption{font-size:12px;color:var(--tx3);text-align:center;padding:9px 16px;font-weight:300}
+
+
+/* KLTB */
+.klt{display:grid;gap:11px}
+.kb{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:16px;
+  border-right:3px solid var(--gold)}
+.kb .h{display:flex;align-items:baseline;gap:9px;margin-bottom:4px;flex-wrap:wrap}
+.kb .h b{font-size:17px;color:var(--gold2);letter-spacing:.01em}
+.kb .h i{font-style:normal;font-size:14px;font-weight:700}
+.kb>p{font-size:13px;color:var(--tx3);font-weight:300;margin-bottom:11px;line-height:1.5}
+.kb ul{margin:0;padding:0 17px 0 0;display:grid;gap:7px}
+.kb li{font-size:13.5px;color:var(--tx2);font-weight:300;line-height:1.55}
+.kb li::marker{color:var(--gold)}
+
+/* HSO */
+.hso{display:grid;gap:10px}
+.hs{background:var(--card2);border:1px solid var(--line);border-radius:13px;padding:15px}
+.hs b{display:block;font-size:12px;font-weight:700;letter-spacing:.1em;color:var(--gold);margin-bottom:6px}
+.hs p{font-size:14.5px;line-height:1.6;font-weight:400}
+.arc{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px;align-items:center}
+.arc span{font-size:12px;background:var(--card2);border:1px solid var(--line);
+  padding:7px 12px;border-radius:99px;color:var(--tx2);font-weight:400}
+.arc em{font-style:normal;color:var(--gold);font-size:13px}
+
+/* anchors list */
+.anc{display:grid;gap:10px}
+.an{display:flex;gap:12px;background:var(--card2);border:1px solid var(--line);
+  border-radius:13px;padding:14px 15px}
+.an .t{flex:0 0 62px;font-size:11.5px;font-weight:700;letter-spacing:.05em;color:var(--gold);padding-top:2px}
+.an p{flex:1;font-size:13.5px;color:var(--tx2);font-weight:300;line-height:1.55}
+
+/* ladder */
+.lad{display:grid;gap:12px}
+.ld{background:var(--card2);border:1px solid var(--line);border-radius:15px;padding:17px;position:relative}
+.ld.hi{border-color:rgba(212,164,65,.4);background:linear-gradient(135deg,rgba(212,164,65,.09),transparent)}
+.ld .top{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:4px;flex-wrap:wrap}
+.ld .tag{font-size:10.5px;font-weight:700;letter-spacing:.08em;color:var(--gold);
+  background:var(--goldDim);padding:3px 9px;border-radius:99px}
+.ld .pr{font-size:19px;font-weight:900;color:var(--gold2);letter-spacing:-.02em}
+.ld h5{margin:0 0 6px;font-size:16.5px;font-weight:900}
+.ld>p{font-size:13.5px;color:var(--tx2);font-weight:300;line-height:1.6;margin-bottom:11px}
+.ld ul{margin:0;padding:0 17px 0 0;display:grid;gap:6px}
+.ld li{font-size:13px;color:var(--tx2);font-weight:300;line-height:1.5}
+.ld li::marker{color:var(--gold)}
+
+/* value equation */
+.veq{display:grid;gap:10px}
+.ve{background:var(--card2);border:1px solid var(--line);border-radius:13px;padding:14px 15px}
+.ve b{display:block;font-size:15px;margin-bottom:4px;color:var(--gold2)}
+.ve p{font-size:13.5px;color:var(--tx2);font-weight:300;line-height:1.55}
+
+/* flow table */
+.flow{display:grid;gap:9px}
+.fw{display:grid;grid-template-columns:1fr;gap:5px;background:var(--card2);
+  border:1px solid var(--line);border-radius:13px;padding:14px 15px;border-right:3px solid var(--gold)}
+.fw b{font-size:14.5px;color:var(--gold2)}
+.fw .c{font-size:13.5px;font-weight:400}
+.fw .g{font-size:12.5px;color:var(--tx3);font-weight:300}
+
+/* tasks */
+.tsk{display:grid;gap:10px}
+.tk{display:flex;gap:12px;background:linear-gradient(135deg,rgba(212,164,65,.09),transparent);
+  border:1px solid rgba(212,164,65,.28);border-radius:13px;padding:15px}
+.tk .x{flex:0 0 22px;height:22px;border:2px solid var(--gold);border-radius:6px;margin-top:2px}
+.tk b{display:block;font-size:14px;color:var(--gold2);margin-bottom:4px}
+.tk p{font-size:13.5px;color:var(--tx2);font-weight:300;line-height:1.55}
+
+/* CTA */
+.cta{background:linear-gradient(150deg,rgba(212,164,65,.16),rgba(212,164,65,.03) 60%,transparent);
+  border:1px solid rgba(212,164,65,.38);border-radius:var(--r2);padding:30px 22px;margin-top:26px;text-align:center}
+.cta h3{font-size:clamp(22px,5.4vw,29px);margin-bottom:12px;line-height:1.3}
+.cta>p{color:var(--tx2);font-size:15px;font-weight:300;margin-bottom:20px;line-height:1.65}
+.cta .gets{display:grid;gap:8px;margin-bottom:22px;text-align:right}
+.cta .get{display:flex;gap:10px;align-items:flex-start;background:rgba(0,0,0,.28);
+  border:1px solid var(--line);border-radius:12px;padding:12px 14px;font-size:14px}
+.cta .get .v{color:var(--gold);font-weight:900;flex:0 0 auto}
+.cta .get span{color:var(--tx2);font-weight:300}
+.cta .get b{color:var(--tx);font-weight:600}
+.cta .fine{font-size:12.5px;color:var(--tx3);margin-top:13px;font-weight:300}
+
+.aiwait{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--tx3);
+  font-weight:400;margin-top:10px}
+.aiwait .sp{width:11px;height:11px;border:2px solid var(--line2);border-top-color:var(--gold);
+  border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.fade-in{animation:fi .5s ease}
+@keyframes fi{from{opacity:.35}to{opacity:1}}
+
+footer{text-align:center;color:var(--tx3);font-size:12px;padding:34px 0 10px;font-weight:300;line-height:1.8}
+@media(max-width:400px){.opts.two{grid-template-columns:1fr}.nums{grid-template-columns:1fr}}
+@media print{body{background:#fff;color:#000}.cta,.nav,.bar{display:none}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<!-- ============ INTRO ============ -->
+<section id="intro">
+  <span class="eyebrow"><span class="dot"></span>אבחון שיווקי · 25 שאלות</span>
+  <h1>העסק שלך טוב.<br><span class="grad">השיווק שלו לא מספר את זה.</span></h1>
+  <p class="lede">
+    25 שאלות שממפות את מי אתה, מה אתה מוכר, למי, ובכמה — ומחזירות
+    <b>תוכנית שיווק שנבנתה לעסק שלך בלבד</b>. לא טיפים כלליים. לא רשימת "10 דברים שכל עסק צריך".
+  </p>
+
+  <div class="bullets">
+    <div class="bul"><div class="ic">🎯</div><div><b>משפט המיצוב שלך</b><span>מה בדיוק אתה מוכר, למי, ולמה דווקא ממך</span></div></div>
+    <div class="bul"><div class="ic">📍</div><div><b>איפה הקהל שלך באמת נמצא</b><span>ערוץ ראשי, משני — ומה לא לגעת בו עכשיו</span></div></div>
+    <div class="bul"><div class="ic">🎬</div><div><b>מה להעלות וכמה</b><span>תמהיל תוכן באחוזים וקצב שבועי שמתאים לזמן שיש לך</span></div></div>
+    <div class="bul"><div class="ic">📊</div><div><b>המספרים מאחורי היעד</b><span>כמה לידים, כמה חשיפה וכמה תקציב נדרשים בפועל</span></div></div>
+  </div>
+
+  <button class="btn" id="start">בוא נתחיל <span>←</span></button>
+  <p class="meta">חינם · בלי התחייבות · התוצאה שלך מיד בסוף</p>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz">
+  <div class="bar">
+    <div class="row"><span id="stepLbl">שלב 1 מתוך 7</span><b id="pctLbl">0%</b></div>
+    <div class="track"><div class="fill" id="fill"></div></div>
+  </div>
+  <div id="stepHost"></div>
+  <div class="nav">
+    <button class="back" id="back" aria-label="חזרה">→</button>
+    <button class="btn" id="next">המשך</button>
+  </div>
+  <p class="err" id="qErr" style="text-align:center;margin-top:-14px"></p>
+</section>
+
+<!-- ============ GATE ============ -->
+<section id="gate">
+  <div class="lock">🔓</div>
+  <h2>הניתוח שלך <span class="grad">מוכן</span>.</h2>
+  <p class="sub">
+    ענית על הכל — המערכת בנתה תוכנית שיווק מלאה לעסק שלך.
+    תשאיר פרטים ואני פותח לך אותה עכשיו.
+  </p>
+  <div class="gfields">
+    <div class="two">
+      <input class="fld" id="gFirst" placeholder="שם פרטי" autocomplete="given-name">
+      <input class="fld" id="gLast" placeholder="שם משפחה" autocomplete="family-name">
+    </div>
+    <input class="fld" id="gBiz" placeholder="שם העסק" autocomplete="organization">
+    <input class="fld" id="gPhone" type="tel" inputmode="tel" placeholder="טלפון נייד" autocomplete="tel">
+    <input class="fld" id="gIg" placeholder="שם משתמש באינסטגרם (או אתר)">
+  </div>
+  <p class="err" id="gErr"></p>
+  <button class="btn" id="gBtn" style="margin-top:18px">פתח לי את הניתוח ←</button>
+  <p class="priv">הפרטים נשמרים אצלי בלבד ולא מועברים לאף גורם.</p>
+</section>
+
+<!-- ============ REPORT ============ -->
+<section id="report"></section>
+
+<footer id="foot"></footer>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   הגדרות — לערוך כאן
+   ═══════════════════════════════════════════════════════════ */
+const CFG = {
+  CRM_URL:   "https://aviel-crm-production.up.railway.app/api/leads",
+  SHEET_URL: "",                    /* Apps Script /exec — אופציונלי */
+  FUNNEL:    "strategy-engine",
+  AI_URL:    "",                    /* כתובת ה-proxy. ריק = מנוע כללים בלבד */
+  MEETING:   "",                    /* לינק קביעת פגישה. ריק = וואטסאפ */
+  WHATSAPP:  "972546894648",
+  BRAND:     "אבחון שיווקי לעסק",
+  SIGN:      "",                    /* שורת חתימה בפוטר */
+  PRICE_TXT: "בעלות מינימלית"
+};
+
+/* ═══════════════════════════════════════════════════════════
+   השאלון — 25 שאלות ב-7 שלבים
+   ═══════════════════════════════════════════════════════════ */
+const STEPS = [
+{ t:"מי אתה", s:"נתחיל מהבסיס — מה העסק ואיפה הוא עומד היום.", q:[
+  {id:"field", type:"choice", label:"באיזה תחום העסק שלך?", opts:[
+    {v:"health",   t:"כושר, בריאות ותזונה"},
+    {v:"beauty",   t:"יופי, טיפוח ואסתטיקה"},
+    {v:"fashion",  t:"אופנה, תכשיטים ואקססוריז"},
+    {v:"food",     t:"מזון, מסעדנות ומאפים"},
+    {v:"pro",      t:"ייעוץ ומקצועות חופשיים", d:"עו״ד, רו״ח, פסיכולוגיה, נדל״ן"},
+    {v:"home",     t:"בית, עיצוב ושיפוצים"},
+    {v:"kids",     t:"ילדים, הורות וחינוך"},
+    {v:"tech",     t:"טכנולוגיה, דיגיטל ושירותי עסקים"},
+    {v:"leisure",  t:"תיירות, אירועים ופנאי"},
+    {v:"other",    t:"אחר"}
+  ]},
+  {id:"model", type:"choice", label:"מה המודל העסקי שלך?", hint:"זו השאלה שמשנה הכי הרבה בהמלצות שתקבל.", opts:[
+    {v:"service", t:"שירות אישי", d:"אתה נותן את השירות בעצמך — אימון, טיפול, ייעוץ"},
+    {v:"product1",t:"מוצר אחד מרכזי", d:"מוכר בעיקר מוצר או חבילה אחת"},
+    {v:"store",   t:"חנות עם מגוון מוצרים", d:"קטלוג, כמה קטגוריות, קניות חוזרות"},
+    {v:"digital", t:"מוצר דיגיטלי", d:"קורס, מנוי, אפליקציה, תוכן בתשלום"},
+    {v:"local",   t:"עסק מקומי פיזי", d:"סטודיו, מספרה, קליניקה, מסעדה"}
+  ]},
+  {id:"tenure", type:"choice", label:"כמה זמן העסק פעיל?", two:true, opts:[
+    {v:"new", t:"פחות מחצי שנה"},{v:"young", t:"חצי שנה עד שנתיים"},
+    {v:"est", t:"שנתיים עד חמש"},{v:"vet", t:"מעל חמש שנים"}
+  ]},
+  {id:"who", type:"choice", label:"מי מטפל בשיווק היום?", two:true, opts:[
+    {v:"me",   t:"אני, לבד"},{v:"staff", t:"עובד אצלי"},
+    {v:"free", t:"פרילנסר / סוכנות"},{v:"none", t:"אף אחד"}
+  ]}
+]},
+
+{ t:"למי אתה פונה", s:"בלי לדעת מי הקהל — אי אפשר לדעת איפה לפרסם.", q:[
+  {id:"market", type:"choice", label:"למי אתה מוכר?", two:true, opts:[
+    {v:"b2c", t:"לאנשים פרטיים"},{v:"b2b", t:"לעסקים"},{v:"both", t:"לשניהם"}
+  ]},
+  {id:"ages", type:"multi", label:"מה טווח הגילאים של הלקוחות שלך?", hint:"אפשר לבחור כמה — סמן את מי שבאמת קונה, לא את מי שהיית רוצה.", opts:[
+    {v:"18-24", t:"18-24"},{v:"25-34", t:"25-34"},{v:"35-44", t:"35-44"},
+    {v:"45-54", t:"45-54"},{v:"55+", t:"55 ומעלה"}
+  ]},
+  {id:"gender", type:"choice", label:"מי רוב הלקוחות שלך?", two:true, opts:[
+    {v:"f", t:"בעיקר נשים"},{v:"m", t:"בעיקר גברים"},{v:"mix", t:"מעורב"}
+  ]},
+  {id:"geo", type:"choice", label:"מאיפה מגיעים אליך?", two:true, opts:[
+    {v:"city",  t:"מהעיר שלי"},{v:"region", t:"מהאזור"},
+    {v:"nat",   t:"מכל הארץ"},{v:"intl", t:"גם מחו״ל"}
+  ]}
+]},
+
+{ t:"הסיפור והערכים", s:"פה נולד הבידול. ענה בכנות — לא בשפה שיווקית.", q:[
+  {id:"pain", type:"area", label:"מה הבעיה שאתה פותר ללקוח?", hint:"במילים שהלקוח עצמו היה אומר. לא ״אני נותן שירות מקצועי״.",
+   ph:"לדוגמה: אנשים מנסים לרדת במשקל שנים ונשברים אחרי חודש כי הם לבד"},
+  {id:"why", type:"area", label:"למה התחלת את העסק הזה?", hint:"הסיפור האישי — זה מה שאף מתחרה לא יכול להעתיק.",
+   ph:"לדוגמה: הייתי בעצמי במקום הזה, ואף אחד לא היה שם בשבילי"},
+  {id:"values", type:"multi", max:3, label:"בחר 3 ערכים שמייצגים אותך", hint:"מה שהלקוח צריך להרגיש אחרי שהוא רואה אותך.", opts:[
+    {v:"pro",t:"מקצועיות"},{v:"personal",t:"יחס אישי"},{v:"honest",t:"אמינות ושקיפות"},
+    {v:"lux",t:"יוקרה"},{v:"access",t:"נגישות"},{v:"innov",t:"חדשנות"},
+    {v:"trad",t:"מסורת"},{v:"fun",t:"כיף ואנרגיה"},{v:"results",t:"תוצאות"},
+    {v:"comm",t:"קהילה"},{v:"fast",t:"מהירות"},{v:"empathy",t:"הכלה ורגישות"}
+  ]},
+  {id:"tone", type:"choice", label:"איזה טון מתאים לך מול מצלמה?", opts:[
+    {v:"auth", t:"סמכותי ומקצועי", d:"אני יודע על מה אני מדבר, ואני מלמד"},
+    {v:"friend",t:"חברי ונגיש", d:"מדבר איתך כמו חבר, בגובה העיניים"},
+    {v:"funny", t:"קליל ומצחיק", d:"הומור, טרנדים, לא לוקח את עצמי ברצינות"},
+    {v:"inspire",t:"מעורר השראה", d:"סיפורים, רגש, טרנספורמציות"},
+    {v:"lux",   t:"יוקרתי ומינימלי", d:"פחות מילים, יותר אסתטיקה"}
+  ]}
+]},
+
+{ t:"המספרים", s:"בלי המספרים האלה כל תוכנית שיווק היא ניחוש. אין תשובה נכונה — רק אמיתית.", q:[
+  {id:"price", type:"money", label:"כמה משלם לך לקוח ממוצע?", hint:"עסקה בודדת או תוכנית שלמה — מה שיותר נכון אצלך.", ph:"למשל 1200"},
+  {id:"margin", type:"choice", label:"כמה מזה נשאר לך ביד, אחרי כל ההוצאות?", two:true, opts:[
+    {v:"0.25", t:"עד 25%"},{v:"0.45", t:"25%-50%"},
+    {v:"0.65", t:"50%-75%"},{v:"0.85", t:"מעל 75%"}
+  ]},
+  {id:"cur", type:"num", label:"כמה לקוחות משלמים יש לך בחודש היום?", ph:"למשל 8"},
+  {id:"goal", type:"num", label:"לכמה אתה רוצה להגיע בחודש?", hint:"מספר שהיית שמח איתו — לא פנטזיה.", ph:"למשל 20"},
+  {id:"budget", type:"choice", label:"כמה אתה משקיע היום בפרסום ממומן בחודש?", two:true, opts:[
+    {v:"0",    t:"0 ₪"},{v:"400",  t:"עד 500 ₪"},
+    {v:"1000", t:"500-1,500 ₪"},{v:"3000", t:"1,500-5,000 ₪"},
+    {v:"7000", t:"מעל 5,000 ₪"}
+  ]}
+]},
+
+{ t:"הנכסים הדיגיטליים", s:"מה כבר יש לך ביד — ומה אתה עושה איתו.", q:[
+  {id:"channels", type:"multi", label:"אילו ערוצים קיימים לך היום?", hint:"סמן רק מה שקיים בפועל, גם אם מוזנח.", opts:[
+    {v:"ig",t:"אינסטגרם"},{v:"tt",t:"טיקטוק"},{v:"fb",t:"פייסבוק"},
+    {v:"yt",t:"יוטיוב"},{v:"li",t:"לינקדאין"},{v:"site",t:"אתר"},
+    {v:"lp",t:"דף נחיתה"},{v:"gmb",t:"גוגל עסקי"},{v:"mail",t:"רשימת דיוור"},
+    {v:"wa",t:"קבוצת/עסקי וואטסאפ"},{v:"none",t:"אין לי כלום"}
+  ]},
+  {id:"followers", type:"choice", label:"כמה עוקבים בערוץ הראשי שלך?", two:true, opts:[
+    {v:"0",   t:"עד 500"},{v:"1", t:"500-2,000"},{v:"2", t:"2,000-10,000"},
+    {v:"3",   t:"10,000-50,000"},{v:"4", t:"מעל 50,000"}
+  ]},
+  {id:"freq", type:"choice", label:"כמה אתה מעלה תוכן היום?", opts:[
+    {v:"0", t:"כמעט בכלל לא"},{v:"1", t:"פחות מפעם בשבוע"},
+    {v:"2", t:"1-2 בשבוע"},{v:"3", t:"3-5 בשבוע"},{v:"4", t:"כל יום"}
+  ]},
+  {id:"sources", type:"multi", label:"מאיפה מגיעים אליך הלקוחות היום?", opts:[
+    {v:"ref",t:"המלצות מפה לאוזן"},{v:"ig",t:"אינסטגרם / טיקטוק"},
+    {v:"goo",t:"חיפוש בגוגל"},{v:"ads",t:"פרסום ממומן"},
+    {v:"walk",t:"מהמקום הפיזי"},{v:"net",t:"קשרים ונטוורקינג"},{v:"none",t:"כמעט לא מגיעים"}
+  ]}
+]},
+
+{ t:"מה עוצר אותך", s:"החלק שאף אחד לא אוהב לענות עליו — ובדיוק הוא מייצר את הפתרון.", q:[
+  {id:"objection", type:"choice", label:"מה ההתנגדות שהכי חוזרת אצלך?", opts:[
+    {v:"price", t:"״יקר לי״"},
+    {v:"know",  t:"״לא מכיר אותך / לא בטוח בך״"},
+    {v:"what",  t:"״לא הבנתי בדיוק מה אתה נותן״"},
+    {v:"comp",  t:"״מצאתי מישהו זול יותר״"},
+    {v:"time",  t:"״עכשיו זה לא הזמן״"}
+  ]},
+  {id:"blocker", type:"choice", label:"מה הכי מעכב אותך בשיווק עצמו?", opts:[
+    {v:"time",  t:"אין לי זמן"},
+    {v:"what",  t:"לא יודע מה להעלות"},
+    {v:"cam",   t:"לא נוח לי מול מצלמה"},
+    {v:"money", t:"אין תקציב"},
+    {v:"result",t:"מעלה — ולא קורה כלום"}
+  ]},
+  {id:"edge", type:"area", label:"במה אתה טוב יותר מהמתחרים שלך?", hint:"דבר אחד קונקרטי. לא ״שירות ואיכות״.",
+   ph:"לדוגמה: אני מתאמן יחד עם הלקוח, לא עומד מהצד"}
+]},
+
+{ t:"כמה אתה מוכן להשקיע", s:"שאלה אחרונה — וממנה נגזרת כל התוכנית.", q:[
+  {id:"hours", type:"choice", label:"כמה שעות בשבוע אתה יכול להקדיש לשיווק בפועל?", hint:"צילום, עריכה, כתיבה, מענה בהודעות — הכל ביחד.", opts:[
+    {v:"1", t:"עד שעה", d:"כמעט בלתי אפשרי לבד"},
+    {v:"2", t:"1-3 שעות", d:"מינימום סביר להתחלה"},
+    {v:"4", t:"3-6 שעות", d:"אפשר לבנות מכונה"},
+    {v:"8", t:"מעל 6 שעות", d:"אפשר להאיץ ברצינות"}
+  ]}
+]}
+];
+
+const A = {};                       /* התשובות */
+let si = 0;                         /* אינדקס שלב */
+
+/* ═══════════════════════════════════════════════════════════
+   רינדור השאלון
+   ═══════════════════════════════════════════════════════════ */
+const $ = s => document.querySelector(s);
+const el = (tag, cls, html) => { const e = document.createElement(tag);
+  if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; };
+
+function renderStep(){
+  const st = STEPS[si], host = $('#stepHost');
+  host.innerHTML = '';
+  const box = el('div','step');
+  const h = el('div','st-h');
+  h.appendChild(el('div','st-n','שלב ' + (si+1) + ' · ' + st.t.toUpperCase()));
+  h.appendChild(el('h2', null, st.t));
+  h.appendChild(el('p', null, st.s));
+  box.appendChild(h);
+
+  st.q.forEach(q => box.appendChild(renderQ(q)));
+  host.appendChild(box);
+
+  $('#stepLbl').textContent = 'שלב ' + (si+1) + ' מתוך ' + STEPS.length;
+  const pct = Math.round(si / STEPS.length * 100);
+  $('#pctLbl').textContent = pct + '%';
+  $('#fill').style.width = pct + '%';
+  $('#back').style.visibility = si === 0 ? 'hidden' : 'visible';
+  $('#next').textContent = si === STEPS.length - 1 ? 'קבל את הניתוח שלי ←' : 'המשך';
+  $('#qErr').style.display = 'none';
+  window.scrollTo({top:0, behavior:'instant'});
+}
+
+function renderQ(q){
+  const w = el('div','q');
+  w.appendChild(el('label', null, q.label));
+  if (q.hint) w.appendChild(el('p','hint', q.hint));
+
+  if (q.type === 'choice'){
+    const o = el('div','opts' + (q.two ? ' two' : ''));
+    q.opts.forEach(op => {
+      const b = el('button','opt' + (A[q.id] === op.v ? ' on' : ''));
+      b.type = 'button';
+      b.innerHTML = '<span class="mark"></span><span class="txt"><b></b>' +
+                    (op.d ? '<span></span>' : '') + '</span>';
+      b.querySelector('b').textContent = op.t;
+      if (op.d) b.querySelector('.txt span').textContent = op.d;
+      b.onclick = () => {
+        A[q.id] = op.v;
+        o.querySelectorAll('.opt').forEach(x => x.classList.remove('on'));
+        b.classList.add('on');
+        $('#qErr').style.display = 'none';
+      };
+      o.appendChild(b);
+    });
+    w.appendChild(o);
+  }
+
+  else if (q.type === 'multi'){
+    A[q.id] = A[q.id] || [];
+    const o = el('div','chips');
+    const sync = () => o.querySelectorAll('.chip').forEach(c => {
+      const on = A[q.id].indexOf(c.dataset.v) > -1;
+      c.classList.toggle('on', on);
+      c.disabled = !on && q.max && A[q.id].length >= q.max;
+    });
+    q.opts.forEach(op => {
+      const b = el('button','chip'); b.type='button'; b.dataset.v = op.v; b.textContent = op.t;
+      b.onclick = () => {
+        const i = A[q.id].indexOf(op.v);
+        if (i > -1) A[q.id].splice(i,1);
+        else {
+          /* "אין לי כלום" מנקה את השאר, וההפך */
+          if (op.v === 'none') A[q.id] = ['none'];
+          else A[q.id] = A[q.id].filter(x => x !== 'none').concat(op.v);
+        }
+        sync(); $('#qErr').style.display = 'none';
+      };
+      o.appendChild(b);
+    });
+    w.appendChild(o); sync();
+  }
+
+  else if (q.type === 'area' || q.type === 'text'){
+    const t = el(q.type === 'area' ? 'textarea' : 'input','fld');
+    t.placeholder = q.ph || ''; t.value = A[q.id] || '';
+    t.oninput = () => { A[q.id] = t.value; $('#qErr').style.display='none'; };
+    w.appendChild(t);
+  }
+
+  else if (q.type === 'num' || q.type === 'money'){
+    const box = el('div', q.type === 'money' ? 'money' : '');
+    const t = el('input','fld'); t.type='number'; t.inputMode='numeric'; t.min='0';
+    t.placeholder = q.ph || ''; t.value = A[q.id] != null ? A[q.id] : '';
+    t.oninput = () => { A[q.id] = t.value; $('#qErr').style.display='none'; };
+    box.appendChild(t);
+    if (q.type === 'money') box.appendChild(el('span','cur','₪'));
+    w.appendChild(box);
+  }
+  return w;
+}
+
+function validate(){
+  for (const q of STEPS[si].q){
+    const v = A[q.id];
+    if (q.type === 'multi'){
+      if (!v || !v.length) return 'בחר לפחות אפשרות אחת ב״' + q.label + '״';
+      if (q.max && v.length !== q.max) return 'בחר בדיוק ' + q.max + ' ב״' + q.label + '״';
+    } else if (q.type === 'area' || q.type === 'text'){
+      if (!v || v.trim().length < 8) return 'כתוב תשובה קצת יותר מפורטת ב״' + q.label + '״';
+    } else if (q.type === 'num' || q.type === 'money'){
+      if (v === '' || v == null || isNaN(+v) || +v < 0) return 'מלא מספר תקין ב״' + q.label + '״';
+    } else if (!v) return 'בחר תשובה ב״' + q.label + '״';
+  }
+  return null;
+}
+
+$('#start').onclick = () => {
+  $('#intro').style.display = 'none';
+  $('#quiz').style.display = 'block';
+  renderStep();
+};
+$('#back').onclick = () => { if (si > 0){ si--; renderStep(); } };
+$('#next').onclick = () => {
+  const e = validate();
+  if (e){ const b = $('#qErr'); b.textContent = e; b.style.display = 'block'; return; }
+  if (si < STEPS.length - 1){ si++; renderStep(); }
+  else {
+    $('#quiz').style.display = 'none';
+    $('#gate').style.display = 'flex';
+    window.scrollTo(0,0);
+  }
+};
+
+/* ═══════════════════════════════════════════════════════════
+   מנוע הכללים — כל ההמלצות נגזרות מכאן
+   ═══════════════════════════════════════════════════════════ */
+const has = (arr, v) => (arr || []).indexOf(v) > -1;
+const n   = v => { const x = parseFloat(v); return isNaN(x) ? 0 : x; };
+const nis = x => Math.round(x).toLocaleString('he-IL') + ' ₪';
+
+const FIELD_NOUN = {
+  health:'מאמן', beauty:'מטפל', fashion:'מעצב', food:'יוצר',
+  pro:'יועץ', home:'מומחה', kids:'מלווה', tech:'מומחה',
+  leisure:'מפיק', other:'בעל מקצוע'
+};
+const MODEL_NAME = {
+  service:'שירות אישי', product1:'מוצר מרכזי אחד', store:'חנות רב־מוצרית',
+  digital:'מוצר דיגיטלי', local:'עסק מקומי'
+};
+/* שיעורי המרה ועלות ליד — מבוססי בנצ׳מרק שוק ישראלי, שמרניים בכוונה */
+const CLOSE = { service:.22, product1:.08, store:.03, digital:.05, local:.28 };
+const LEADR = { service:.006, product1:.004, store:.003, digital:.004, local:.008 };
+const CPL   = { service:38,  product1:24,  store:12,  digital:20,  local:28 };
+
+function engine(a){
+  const R = {};
+  const model = a.model, ages = a.ages || [], ch = a.channels || [];
+  const hours = n(a.hours), budget = n(a.budget), freq = n(a.freq), fol = n(a.followers);
+  const price = n(a.price), margin = n(a.margin), cur = n(a.cur), goal = n(a.goal);
+
+  R.model = model; R.modelName = MODEL_NAME[model];
+
+  /* ── קהל ── */
+  const young = has(ages,'18-24'), mid = has(ages,'25-34') || has(ages,'35-44');
+  const old   = has(ages,'45-54') || has(ages,'55+');
+  const b2b   = a.market === 'b2b', both = a.market === 'both';
+  const local = a.geo === 'city' || a.geo === 'region';
+  R.audience = (function(){
+    const g = a.gender === 'f' ? 'נשים' : a.gender === 'm' ? 'גברים' : 'אנשים';
+    const so = ages.slice().sort();
+    const rng = so.length ? so[0].split('-')[0] + '-' +
+                so[so.length-1].split('-').pop().replace('+','') : '';
+    if (b2b) return 'בעלי עסקים' + (local ? ' באזור שלך' : '');
+    return g + (rng ? ' בגילאי ' + rng : '') + (local ? ' באזור שלך' : '');
+  })();
+
+  /* ── פלטפורמות ── */
+  const P = [];
+  const add = (tier, em, name, why) => P.push({tier, em, name, why});
+  if (b2b || both){
+    add(1,'💼','לינקדאין','הקהל שלך הוא מקבלי החלטות — שם הם מחפשים ספקים, ושם פוסט אחד טוב שווה עשרה ברשתות אחרות.');
+    add(2,'📸','אינסטגרם','לחימום ולאמון. אנשי עסקים בודקים את הפרופיל האישי שלך לפני שהם פונים.');
+  } else if (young && !old){
+    add(1,'🎵','טיקטוק','הקהל שלך צעיר — שם ההגעה האורגנית הכי גבוהה בישראל, וגם חשבון קטן יכול לפרוץ.');
+    add(2,'📸','אינסטגרם ריל','אותו תוכן, קהל שני. מעלים לשם את מה שעבד בטיקטוק.');
+  } else if (old && !young && !mid){
+    add(1,'👥','פייסבוק','הקהל שלך בגילאי 45+ — הם עדיין שם, בקבוצות ובפיד, והמתחרים שלך כבר עזבו.');
+    add(2,'📸','אינסטגרם','נוכחות בסיסית לאמינות, לא ערוץ ההשקעה העיקרי.');
+  } else {
+    add(1,'📸','אינסטגרם','ליבת הקהל שלך בגילאי 25-44 — רילס להגעה, סטוריז לאמון, פרופיל לסגירה.');
+    add(2,'🎵','טיקטוק','שכפול של הרילס שעבדו. עלות שולית אפס, פוטנציאל הגעה כפול.');
+  }
+  if (local) add(1,'📍','גוגל עסקי','אתה עסק מקומי — מי שמחפש ״' + (FIELD_NOUN[a.field]||'') +
+    ' לידי״ נוחת אצל מי שיש לו פרופיל מסודר וביקורות. זה הערוץ עם הכוונת הקנייה הגבוהה ביותר.');
+  if (model === 'product1'){
+    add(1,'🎯','דף נחיתה + ממומן','מוצר אחד = משפט מכירה אחד. דף נחיתה ייעודי שמנקז אליו קמפיין הוא המבנה הרווחי ביותר עבורך.');
+    add(2,'🤝','משפיענים קטנים','שיתופי פעולה עם 5-10 יוצרים בגודל בינוני יחזירו יותר מקמפיין ממומן אחד גדול.');
+  }
+  if (model === 'store'){
+    add(1,'🛒','קטלוג + ריטרגטינג','חנות חיה על חזרה. קטלוג מסונכרן וקמפיין ריטרגטינג לנוטשי עגלה הם הרווח הכי זול שיש.');
+    add(2,'✉️','רשימת דיוור','לקוח חוזר עולה שליש מלקוח חדש. מייל וואטסאפ אחרי כל רכישה — זה הכסף שאתה משאיר על השולחן.');
+  }
+  if (model === 'digital'){
+    add(1,'✉️','רשימת תפוצה','במוצר דיגיטלי הרשימה היא הנכס, לא העוקבים. אלגוריתם משתנה — רשימה נשארת.');
+    add(2,'🎬','יוטיוב / פודקאסט','תוכן ארוך בונה סמכות שקורס קצר לא בונה. סרטון אחד ארוך מזין 8 רילסים.');
+  }
+  if (model === 'service'){
+    add(1,'💬','וואטסאפ עסקי','השירות שלך נסגר בשיחה, לא בכפתור. כפתור וואטסאפ ישיר מהפרופיל מקצר את הדרך מהצפייה לפגישה.');
+  }
+  /* מה לא לעשות עכשיו */
+  if (hours <= 2) add(3,'🚫','אל תפתח ערוץ שלישי','עם ' + (hours<=1?'עד שעה':'1-3 שעות') +
+    ' בשבוע, פיזור על שלושה ערוצים = בינוניות בכל אחד. ערוץ אחד חזק מנצח שלושה מתים.');
+  if (budget === 0 && freq <= 1) add(3,'🚫','לא ממומן. עדיין.',
+    'לשפוך כסף על מודעה לפני שיש לך 10 פוסטים אורגניים שאתה יודע שעובדים — זה לשלם כדי לגלות מה לא עובד.');
+  if (!b2b && !both && young) add(3,'🚫','לא לינקדאין','הקהל שלך לא שם. זו השקעת זמן שלא תחזור.');
+  R.platforms = P;
+
+  /* ── תמהיל תוכן ── */
+  const MIX = {
+    service: [['סמכות מקצועית',30,'תוכן שמוכיח שאתה יודע — הסבר, טעות נפוצה, ״למה זה קורה לך״.'],
+              ['סיפור אישי',25,'מי אתה, למה התחלת, מה עברת. בשירות אישי — קונים אותך, לא את השיטה.'],
+              ['הוכחה חברתית',25,'לפני/אחרי, עדויות, לקוח מספר בעצמו. זה מה שסוגר התנגדויות בלי שתגיד מילה.'],
+              ['הנעה לפעולה',10,'הצעה ישירה. פעם בשבוע, בלי בושה.'],
+              ['טרנד וקלילות',10,'שובר את הרצינות ומכניס קהל חדש.']],
+    product1:[['טרנד והגעה',30,'המוצר שלך צריך חשיפה רחבה. פורמט טרנדי עם המוצר בפריים הוא מכונת ההגעה שלך.'],
+              ['הוכחה חברתית',25,'לקוחות מצלמים, פותחים, מגיבים. UGC ממיר פי 3 ממודעה מעוצבת.'],
+              ['הנעה לפעולה',20,'מבצע, מלאי, דחיפות. במוצר אחד מותר וצריך למכור יותר.'],
+              ['סמכות והסבר',15,'למה זה עובד, ממה זה עשוי, מה ההבדל מהזול.'],
+              ['סיפור מותג',10,'איך המוצר נולד. זה מה שהופך מוצר לדבר שרוצים.']],
+    store:   [['מוצר וקטלוג',35,'המוצרים עצמם, בפורמט שמעורר קנייה — לא צילום קטלוגי משעמם.'],
+              ['הוכחה חברתית',20,'לקוחות עם המוצר, ביקורות, ״הכי נמכר״.'],
+              ['טרנד והגעה',20,'לגייס קהל חדש שעדיין לא מכיר את החנות.'],
+              ['הנעה לפעולה',15,'קולקציה, מבצע, אזל מהמלאי.'],
+              ['מאחורי הקלעים',10,'איך בוחרים, איך אורזים. זה מה שיוצר חיבור לחנות קטנה.']],
+    digital: [['סמכות מקצועית',35,'התוכן שלך הוא הדגמה של המוצר. ככל שתלמד יותר בחינם — יקנו יותר.'],
+              ['ערך ישים',25,'משהו שאפשר ליישם היום. זה מה שגורם לשמור ולשתף.'],
+              ['הוכחה חברתית',20,'תלמידים, תוצאות, צילומי מסך של הודעות.'],
+              ['הנעה לפעולה',15,'פתיחת מחזור, הרשמה, בונוס מוגבל.'],
+              ['סיפור אישי',5,'למה בניתי את זה.']],
+    local:   [['המקום והאנשים',30,'המרחב, הצוות, האווירה. אנשים בוחרים מקום מקומי לפי תחושה.'],
+              ['הוכחה חברתית',25,'לקוחות מהאזור, ביקורות, תיוגים.'],
+              ['סמכות מקצועית',20,'למה אצלך זה נעשה נכון.'],
+              ['הנעה לפעולה',15,'זמינות, תור פנוי, מבצע לתושבי האזור.'],
+              ['טרנד וקלילות',10,'להיכנס לפיד של מי שגר לידך.']]
+  };
+  R.mix = MIX[model];
+
+  /* ── קצב ── */
+  const CAD = { 1:[2,3], 2:[3,4], 4:[4,5], 8:[6,6] };
+  let [feed, stor] = CAD[hours] || [3,4];
+  R.feed = feed; R.stories = stor;
+  R.cadenceNote = hours <= 1
+    ? 'זה המינימום שמחזיק נוכחות — הוא לא יביא צמיחה, הוא ימנע היעלמות.'
+    : hours >= 8 ? 'בקצב הזה, בתוך 90 יום אתה עסק אחר לגמרי — אם הוא עקבי.'
+    : 'הקצב הזה מותאם לזמן שיש לך בפועל, לא לזמן שהיית רוצה. עדיף לעמוד בו מאשר להתחיל חזק ולהיעלם.';
+
+  /* ── משפך ── */
+  const hasConv = has(ch,'lp') || has(ch,'site') || has(ch,'wa');
+  const F = [
+    {t:'1 · מודעות — שיראו אותך', ok: freq >= 2,
+     ok_t:'תוכן קצר וממוקד ב' + P[0].name + ', ' + feed + ' בשבוע. המטרה פה היא הגעה לזרים בלבד — לא מכירה.',
+     no_t:'אין לך היום מנוע הגעה. בקצב של ' + (freq<=1?'פחות מפעם בשבוע':'הקצב הנוכחי') +
+          ' רואים אותך רק מי שכבר עוקב. צריך ' + feed + ' פריטי תוכן שבועיים שמכוונים לזרים.'},
+    {t:'2 · עניין — שיבינו מה אתה', ok: has(ch,'ig') || has(ch,'site'),
+     ok_t:'הפרופיל והביו הם דף הנחיתה האמיתי שלך. משפט אחד שאומר למי אתה ומה אתה פותר, וכפתור פעולה אחד.',
+     no_t:'אין לך נכס שמסביר מה אתה עושה. אדם שראה סרטון ולא הבין תוך 3 שניות מה אתה מוכר — ממשיך לגלול.'},
+    {t:'3 · אמון — שיאמינו לך', ok: has(a.sources||[],'ref'),
+     ok_t:'המלצות כבר עובדות בשבילך — צריך להעביר אותן מהפה לאוזן אל המסך. ' + stor + ' סטוריז ביום, מהם לפחות אחד עדות או תוצאה.',
+     no_t:'זה החור הגדול שלך. אין הוכחה חברתית גלויה, ולכן ההתנגדות ״' +
+          ({price:'יקר לי',know:'לא מכיר אותך',what:'לא הבנתי מה אתה נותן',comp:'מצאתי זול יותר',time:'לא הזמן'}[a.objection]) +
+          '״ חוזרת שוב ושוב.'},
+    {t:'4 · המרה — שיפנו אליך', ok: hasConv,
+     ok_t:'יש לך נכס המרה. הוא צריך להופיע בכל סטורי שלישי ובביו — לא רק כשאתה ״מוכר״.',
+     no_t:'אין לאן לשלוח את מי שהתחמם. כל החשיפה שאתה מייצר דולפת. זה השינוי הראשון לעשות — עוד לפני התוכן.'}
+  ];
+  R.funnel = F;
+
+  /* ── מספרים ── */
+  const gap  = Math.max(0, goal - cur);
+  const rate = CLOSE[model], lr = LEADR[model], cpl = CPL[model];
+  const leads = Math.ceil(gap / rate);
+  const reach = Math.ceil(leads / lr);
+  R.gapClients = gap;
+  R.revGap  = gap * price;
+  R.profGap = gap * price * margin;
+  R.curRev  = cur * price;
+  R.leads   = leads;
+  R.reach   = reach;
+  R.paidNeed = Math.round(leads * cpl);
+  R.closeRate = Math.round(rate * 100);
+
+  /* ── פער השקעה ── */
+  const timeNeed = Math.round((feed * 1.1 + stor * 7 * 0.06 + 1.5) * 10) / 10;
+  R.timeNeed = timeNeed;
+  R.timeHave = hours;
+  R.timeGap  = Math.max(0, Math.round((timeNeed - hours) * 10) / 10);
+  R.budgetHave = budget;
+  R.budgetGap  = Math.max(0, R.paidNeed - budget);
+  R.roi = budget > 0 ? Math.round(R.profGap / Math.max(1, R.paidNeed) * 10) / 10 : null;
+
+  /* ── ציון בשלות ── */
+  const chCount = has(ch,'none') ? 0 : ch.length;
+  const S = {
+    assets:      Math.min(25, Math.round(Math.min(chCount,5)/5*12 + fol/4*13)),
+    consistency: Math.round(freq/4*20),
+    clarity:     (a.pain && a.pain.length>25?7:4) + ((a.values||[]).length===3?5:2) +
+                 (a.edge && a.edge.length>25?8:4),
+    economics:   Math.round((price>0?7:0) + margin*9.4),
+    sources:     Math.min(10, (has(a.sources||[],'none') ? 0 : (a.sources||[]).length) * 3),
+    resources:   Math.min(10, (budget>0?Math.min(5,budget/1000*2.5):0) + Math.min(5,hours/8*5))
+  };
+  S.clarity = Math.min(20, S.clarity); S.economics = Math.min(15, S.economics);
+  R.sub = S;
+  R.score = Math.max(8, Math.min(97, Math.round(
+    S.assets + S.consistency + S.clarity + S.economics + S.sources + S.resources)));
+  R.band =
+    R.score < 36 ? {t:'בראשית הדרך', c:'#e2634f', d:'אין עדיין תשתית שיווקית — וזה בסדר. הדבר הכי חשוב עכשיו הוא לא לעשות הכל, אלא לעשות דבר אחד נכון.'} :
+    R.score < 56 ? {t:'יש בסיס, אין מערכת', c:'#e8a33d', d:'אתה עושה דברים — אבל לא ברצף ולא לפי מבנה. הפער שלך הוא לא ידע, הוא סדר.'} :
+    R.score < 76 ? {t:'עובד — לא ממוקסם', c:'#3fbf8f', d:'המכונה קיימת ומייצרת. עכשיו השאלה היא כמה כסף אתה משאיר על השולחן בגלל חוסר דיוק.'} :
+                   {t:'בשל להאצה', c:'#d4a441', d:'הבסיס חזק. מכאן הצמיחה מגיעה מהכפלה של מה שכבר עובד — ומהוצאה של העבודה מהידיים שלך.'};
+
+  /* ── משפט מיצוב (טיוטת כללים; ה-AI משכתב) ── */
+  const noun = FIELD_NOUN[a.field] || 'בעל מקצוע';
+  const painShort = (a.pain||'').trim().split(/[.\n]/)[0].slice(0,110);
+  const edgeShort = (a.edge||'').trim().split(/[.\n]/)[0].slice(0,90);
+  R.posParts = [
+    ['למי אני פונה', R.audience + ' · ' + R.modelName],
+    ['הבעיה שאני פותר', painShort || (a.pain||'').slice(0,90)],
+    ['מה שרק אצלי', edgeShort || (a.edge||'').slice(0,90)]
+  ];
+  R.positioning = '';   /* משפט אחד מלוטש — נכתב ע״י שכבת ה-AI */
+
+  /* ── 3 רעיונות תוכן ── */
+  const objTxt = {price:'״יקר לי״', know:'״אני לא מכיר אותך״', what:'״לא הבנתי מה אתה נותן״',
+                  comp:'״יש זול יותר״', time:'״לא עכשיו״'}[a.objection];
+  R.ideas = [
+    {t:'הסרטון שסוגר את ההתנגדות',
+     b:'מול המצלמה: ״כל פעם אומרים לי ' + objTxt + '. אז בוא נדבר על זה בכנות.״ ' +
+       'ואז מפרקים את זה למספרים — מה עולה לא לפעול, ומה בדיוק מקבלים. ' +
+       'זה הסרטון שיחזור אליך בהודעות יותר מכל דבר אחר.', f:'ריל · 45-60 שניות'},
+    {t:'הסיפור שאף מתחרה לא יכול להעתיק',
+     b:'הסיבה שהתחלת: ״' + (a.why||'').trim().split(/[.\n]/)[0].slice(0,80) + '״. ' +
+       'לספר את זה בגוף ראשון, בלי מוזיקה דרמטית, עם משפט סיום אחד — למי אתה עושה את זה היום. ' +
+       'זה התוכן שמייצר עוקבים שנשארים.', f:'ריל · 60-90 שניות'},
+    {t:'ההוכחה שמדברת במקומך',
+     b:'לקוח אחד מספר בעצמו — לא אתה עליו. שלוש שאלות: איך היה לפני, מה חששת, מה קרה בפועל. ' +
+       'לחתוך ל-40 שניות ולשים כתוביות. ' + (model==='store'||model==='product1'
+       ? 'במקביל: לבקש מכל לקוח לתייג — UGC הוא הנכס הזול ביותר שלך.'
+       : 'לפרסם אחד כזה כל שבועיים בקביעות.'), f:'ריל + סטורי מוצמד'}
+  ];
+
+  /* ══ פרק 1 · משפך האמון (Know / Like / Trust / Buy) ══ */
+  const P1 = R.platforms.filter(x=>x.tier===1)[0].name;
+  const painQ = (a.pain||'').trim().split(/[.\n]/)[0];
+  const KL = {
+    service:{k:['סרטוני ״הטעות הנפוצה״ — ״רוב מי ש' + painQ.slice(0,55) + ' עושה בדיוק את זה״. תוכן שמתחיל בטעות עוצר גלילה של זרים.',
+                'שאלות שחוזרות אליך בהודעות — כל שאלה כזו היא סרטון. הקהל שלך שואל, אתה עונה לכולם.'],
+            l:['יום בחיים שלך — לא הגרסה המצוחצחת. איך נראה בוקר, איפה אתה נתקע, על מה אתה צוחק.',
+                'משהו אישי שלא קשור לעסק. זה מה שהופך אותך מספק לבנאדם.'],
+            t:['לפני ואחרי, עם המספרים והזמן. לא ״תוצאות מדהימות״ — נתונים.',
+                'לקוח מספר בעצמו, בלי שאתה נוכח בפריים.',
+                'צילומי מסך של הודעות אמיתיות — הכי אמין שיש.'],
+            b:['הצעה ישירה אחת בשבוע, בלי התנצלות.',
+                'שיחת אבחון קצרה ללא עלות — מוריד את החסם לפני שהוא נוצר.']},
+    product1:{k:['המוצר בפעולה ב-3 השניות הראשונות. בלי לוגו, בלי הקדמה — ישר לרגע שמעניין.',
+                'השתלבות בטרנד חם, אבל בביצוע של התחום שלך. אותה מוזיקה, ההקשר שלך.'],
+            l:['איך המוצר נולד — הגרסה הראשונה, מה לא עבד, כמה זרקת לפח.',
+                'הפנים מאחורי המותג. גם מותג מוצר צריך בנאדם.'],
+            t:['לקוחות מצלמים את המוצר בעצמם. UGC ממיר פי כמה ממודעה מעוצבת — תבקש את זה בכל משלוח.',
+                'השוואה כנה מול הזול. למה שלך עולה יותר, ומתי לא כדאי לקנות אותו.'],
+            b:['מבצע עם סיבה אמיתית, לא ״כי כן״.',
+                'דף נחיתה אחד שכל הפרסום מנקז אליו.']},
+    store:{k:['פורמט ״3 מוצרים ל...״ — בוחר קטגוריה וסוגר אותה ב-20 שניות.',
+                'טרנד עם המוצרים כאביזר. חשיפה לקהל שלא מכיר את החנות.'],
+            l:['איך אורזים הזמנה, איך בוחרים מלאי, מה קורה ביום עמוס.',
+                'טעויות והזמנות שהשתבשו — זה מה שגורם לאמון בחנות קטנה.'],
+            t:['לקוחות עם המוצר בבית. תיוג בכל הזמנה, ואוסף קבוע בהיילייטס.',
+                '״הכי נמכר״ עם המספר האמיתי לצידו.'],
+            b:['קולקציה חדשה, אזל מהמלאי, חזרה למלאי — טריגרים אמיתיים.',
+                'ריטרגטינג לנוטשי עגלה. זה הכסף הזול ביותר שיש בחנות.']},
+    digital:{k:['ללמד משהו ישים ב-30 שניות. התוכן שלך הוא הדגמה של המוצר.',
+                'לפרק אמונה מקובלת בתחום. ״כולם אומרים X — וזה לא נכון״.'],
+            l:['הדרך שלך אל הידע הזה. מה לא ידעת, כמה זמן לקח.',
+                'איך נראה יום עבודה שלך בפועל.'],
+            t:['תלמידים ותוצאות שלהם, עם שם ופנים.',
+                'צילומי מסך של הודעות ושאלות מתוך הקהילה.'],
+            b:['פתיחת מחזור עם תאריך סגירה אמיתי.',
+                'בונוס למי שנרשם ראשון — לא הנחה, בונוס.']},
+    local:{k:['המקום עצמו בפריים הראשון. אנשים בוחרים מקום מקומי לפי תחושה.',
+                'תוכן שמזכיר איפה אתה — שם השכונה, נקודת ציון מוכרת. זה מה שמביא שכנים.'],
+            l:['הצוות, האווירה, מה קורה כשסוגרים.',
+                'הרגעים המצחיקים של יום עבודה.'],
+            t:['ביקורות אמיתיות מהאזור, מצולמות במקום.',
+                'לקוחות קבועים שמספרים כמה זמן הם באים.'],
+            b:['תור פנוי השבוע, זמינות אמיתית.',
+                'מבצע לתושבי האזור בלבד.']}
+  }[model];
+  R.kltb = [
+    {k:'Know', he:'חשיפה', d:'שיראו אותך מי שלא מכיר. פה נמדדת הגעה לזרים בלבד — לא לייקים.', items:KL.k},
+    {k:'Like', he:'חיבור', d:'שירצו אותך. תוכן שאין בו שום ערך מקצועי — ובלעדיו לא קונים.', items:KL.l},
+    {k:'Trust', he:'אמון',  d:'שיאמינו לך. פה נשברת ההתנגדות ״' +
+      ({price:'יקר לי',know:'לא מכיר אותך',what:'לא הבנתי מה אתה נותן',comp:'יש זול יותר',time:'לא עכשיו'}[a.objection]) + '״.', items:KL.t},
+    {k:'Buy', he:'רכישה', d:'שיפנו אליך. אחרי שלושת השלבים הקודמים — זה החלק הקל.', items:KL.b}
+  ];
+
+  /* ══ פרק 2 · Hook · Story · Offer ══ */
+  const whyQ = (a.why||'').trim().split(/[.\n]/)[0];
+  R.hso = {
+    hook:  '״' + (painQ ? painQ.charAt(0).toUpperCase()+painQ.slice(1) : '') + ' — ואתה חושב שהבעיה היא אצלך.״',
+    story: 'הרגע שבו הבנת שצריך שינוי: ' + whyQ + '. מכאן — מה ניסית שלא עבד, ומה גילית שכן. ' +
+           'הצופה צריך לזהות את עצמו בשלב הראשון, לא בפתרון.',
+    offer: 'הזמנה קטנה, לא מכירה: ״כתוב לי ' + (model==='store'||model==='product1' ? '״מעניין״' : '״מתחיל״') +
+           ' בהודעה ואשלח לך את זה.״ הצעה שאפשר לומר לה כן בלי לחשוב.',
+    arc:   ['המצב המתסכל שהצופה נמצא בו כרגע','נקודת השבירה — הרגע שמבינים שצריך שינוי',
+            'הפתרון שיש לך','התוצאה — והזמנה לעשות את זה בעצמו']
+  };
+
+  /* ══ פרק 3 · עוגנים ══ */
+  const toneAnchor = {auth:'משפט סגירה קבוע שמסכם כל סרטון',friend:'פנייה קבועה שאתה פותח בה',
+    funny:'ג׳ינגל או משפט אבסורדי שחוזר',inspire:'משפט שאתה חותם בו, תמיד אותו אחד',
+    lux:'מילה אחת שחוזרת, בשקט'}[a.tone];
+  R.anchors = [
+    ['ורבלי','משפט או סלוגן קבוע שחוזר בכל פריט תוכן. ' + toneAnchor + ' — אחרי 20 פעם הקהל אומר אותו איתך.'],
+    ['ויזואלי','מקום, זווית או רקע אחד שחוזר. ' + (model==='local'?'המקום שלך הוא העוגן — תמיד מאותה פינה.':
+      model==='store'||model==='product1'?'רקע או משטח קבוע שכל צילומי המוצר נעשים עליו.':
+      'זווית קבועה — הרכב, פינה במכון, שולחן העבודה. הקהל מזהה אותך לפני שדיברת.')],
+    ['התנהגותי','פינה קבועה ביום קבוע. ' + (R.feed>=4?'למשל: ״שאלה של יום שני״ בכל תחילת שבוע.':
+      'למשל: פינה שבועית אחת שהקהל מחכה לה.') + ' זה מה שהופך צפייה מקרית להרגל.']
+  ];
+
+  /* ══ פרק 4 · סולם המוצרים ══ */
+  const MAG = {
+    service:['מדריך קצר שפותר בעיה אחת שהלקוח שלך נתקע בה כל שבוע',
+             'צ׳ק־ליסט להורדה — הדבר שאתה מסביר שוב ושוב בהודעות',
+             'שיחת אבחון קצרה ללא עלות, עם מכסה שבועית',
+             'קבוצת וואטסאפ שקטה עם טיפ שבועי ומענה לשאלות'],
+    product1:['מדריך ״איך לבחור נכון״ בקטגוריה שלך — לפני שקונים בכלל',
+             'קוד הנחה ראשון בתמורה לפרטים',
+             'טבלת השוואה כנה מול האלטרנטיבות',
+             'קבוצת וואטסאפ עם גישה מוקדמת למלאי ומבצעים'],
+    store:['קופון ראשון בתמורה להצטרפות לרשימה',
+             'מדריך ״מה מתאים לך״ — שאלון קצר שממליץ מוצר',
+             'לוח שנה של דרופים ומבצעים',
+             'קהילת וואטסאפ עם גישה מוקדמת לקולקציות'],
+    digital:['שיעור בודד מתוך המוצר, במלואו',
+             'תבנית או קובץ עבודה מוכן להורדה',
+             'ובינר או זום קצר של 30 דקות עם מענה לשאלות',
+             'קהילת וואטסאפ עם תוכן שבועי'],
+    local:['הטבה לביקור ראשון עבור תושבי האזור',
+             'מדריך מקומי — ״מה כדאי לדעת לפני ש...״',
+             'תור ניסיון בעלות סמלית',
+             'קבוצת וואטסאפ עם זמינות ותורים שהתפנו']
+  }[model];
+  R.magnets = MAG;
+  const snap = [99,149,199,299,399,499,699];
+  const target = price * 0.12;
+  R.lowPrice = snap.reduce((b,x)=> Math.abs(x-target) < Math.abs(b-target) ? x : b, snap[0]);
+  R.ladder = [
+    {tag:'שלב 1 · חינם', name:'ארסנל הפיתיונות', price:'0 ₪',
+     d:'המטרה היחידה: לאסוף לידים ולבנות אמון ראשוני. לא למכור. כל פיתיון מקבל סרטון משלו ואוטומציה שאוספת את הפרטים.',
+     list:MAG},
+    {tag:'שלב 2 · חדירה', name:'מוצר ה־Test Drive', price:R.lowPrice + ' ₪',
+     d:'מוצר זול שאי אפשר לומר לו לא. הוא לא נועד להרוויח — הוא נועד לסנן את הרציניים ולהפוך צופה ללקוח משלם. ' +
+       'מי שהוציא ' + R.lowPrice + ' ₪ יוציא הרבה יותר בפעם הבאה.',
+     list:[model==='service'?'פגישת אבחון או תוכנית קצרה בפורמט מוקלט'
+           :model==='digital'?'מיני־קורס מזורז מתוך המוצר הגדול'
+           :model==='store'?'מארז היכרות או ״הכי נמכר״ בגודל קטן'
+           :model==='product1'?'גרסת ניסיון או מוצר משלים זול'
+           :'תור ניסיון או סדנה קצרה במקום',
+           'מארז תבניות או חומרים שנשארים אצלו',
+           'כניסה לקהילת הוואטסאפ']},
+    {tag:'שלב 3 · פרימיום', name:'המוצר שאתה מוכר היום', price: nis(price),
+     d:'זה מה שאתה כבר מוכר. ההבדל הוא שעכשיו הוא לא הדבר הראשון שהלקוח פוגש — הוא הדבר הרביעי. ' +
+       'בשלב הזה כבר אין התנגדות מחיר, כי כבר יש אמון.',
+     list:['להשיק אותו רק אחרי שהמוצר הזול רץ ואספת מסקנות',
+           'להעלות מחיר ברגע שיש רשימת המתנה',
+           'לתעד כל לקוח פרימיום — הוא ההוכחה למחזור הבא']}
+  ];
+
+  /* ══ פרק 5 · נוסחת הערך ══ */
+  R.value = [
+    ['↑ הגדלת התוצאה הנחשקת','להפסיק למכור את מה שאתה עושה ולהתחיל למכור את מה שהלקוח מקבל. ' +
+      'לא ״' + (FIELD_NOUN[a.field]||'שירות') + '״ — אלא הסוף של: ' + painQ.slice(0,70) + '.'],
+    ['↑ העלאת הוודאות','ההתנגדות שלך היא ' + ({price:'מחיר',know:'זרות',what:'חוסר בהירות',comp:'תחרות',time:'דחייה'}[a.objection]) +
+      '. הכלי היחיד שפותר אותה הוא הוכחה: ' + (has(a.sources||[],'ref')
+      ? 'ההמלצות כבר קיימות אצלך — הן פשוט לא מצולמות. זו המשימה הראשונה.'
+      : 'לבנות תיקייה של כל תוצאה, הודעה ומחמאה, ולהתחיל לפרסם אותן בקביעות.')],
+    ['↓ קיצור הזמן','לתת ללקוח לראות את הצעד הראשון עוד לפני שקנה. תבנית, צ׳ק־ליסט או שיחה קצרה שמקצרת לו חודשים של ניסוי וטעייה.'],
+    ['↓ הפחתת המאמץ והחשש','לפרק את התהליך שלך לשלבים ברורים ולהראות אותם בפומבי. מה שנראה מסובך — לא נקנה.']
+  ];
+
+  /* ══ מבנה המשפך המלא ══ */
+  R.flow = [
+    ['Top · חשיפה', 'תוכן קצר וממוקד ב' + P1 + ', ' + feed + ' בשבוע', 'תפיסת תשומת לב של קהל קר'],
+    ['Middle 1 · נסיעת מבחן', 'פיתיון חינמי בתמורה לתגובה + כניסה לוואטסאפ', 'איסוף ליד ובניית אמון ראשוני'],
+    ['Middle 2 · חדירה', 'הצעת מוצר ה־' + R.lowPrice + ' ₪', 'הפיכת מתעניין ללקוח משלם'],
+    ['Bottom · פרימיום', 'שיחת התאמה אישית', 'סגירה על ' + nis(price)]
+  ];
+
+  /* ══ המשימות ══ */
+  R.tasks = [
+    ['משימה יומית','סטורי אחד מכל אחד מארבעת השלבים — Know, Like, Trust, Buy. כל יום. זה לא ' + stor +
+      ' סטוריז רנדומליים, זה ארבעה תפקידים.'],
+    ['משימה שבועית','לכתוב, לצלם ולערוך ' + feed + ' פריטים לפי מודל Hook-Story-Offer, בוריאציות שונות. ' +
+      'להעלות, למדוד, ולדייק לשבוע הבא. השבוע הראשון הוא לא הצלחה או כישלון — הוא נתונים.'],
+    ['משימה קבועה','לפני כל צילום — לבחור את האוואטר. לא ״הקהל שלי״ אלא אדם אחד מדויק: ' +
+      R.audience.split('·')[0].trim() + ' שבדיוק אמר לעצמו ״' + painQ.slice(0,55) + '״. ' +
+      'לדמיין את השיחה איתו ולדבר רק אליו.']
+  ];
+
+  return R;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GATE — לכידת הליד
+   ═══════════════════════════════════════════════════════════ */
+function normPhone(raw){
+  let d = String(raw).replace(/\D/g,'');
+  if (d.indexOf('00972') === 0) d = '0' + d.slice(5);
+  else if (d.indexOf('972') === 0) d = '0' + d.slice(3);
+  return d;
+}
+const isMobile = d => /^05\d{8}$/.test(d);
+
+$('#gPhone').addEventListener('input', e => {
+  e.target.value = e.target.value.replace(/[^\d+\-\s()]/g,'');
+});
+
+$('#gBtn').onclick = async () => {
+  const first = $('#gFirst').value.trim(), last = $('#gLast').value.trim();
+  const biz   = $('#gBiz').value.trim(),   phone = normPhone($('#gPhone').value);
+  const ig    = $('#gIg').value.trim().replace(/^@+/,'').replace(/\s+/g,'');
+  const err = $('#gErr');
+
+  let m = '';
+  if (first.length < 2)   m = 'בבקשה מלא שם פרטי.';
+  else if (biz.length < 2) m = 'בבקשה מלא את שם העסק.';
+  else if (!isMobile(phone)) m = 'מספר הטלפון לא תקין — צריך נייד ישראלי, למשל 054-1234567.';
+  if (m){ err.textContent = m; err.style.display = 'block'; return; }
+  err.style.display = 'none';
+  $('#gBtn').textContent = 'בונה לך את הניתוח...'; $('#gBtn').disabled = true;
+
+  const R = engine(A);
+  const lead = {
+    firstName:first, lastName:last, name:(first+' '+last).trim(),
+    phone:phone, business:biz, instagram: ig ? '@'+ig : '',
+    funnel: CFG.FUNNEL, createdAt:new Date().toISOString(),
+    /* שדות שמאפשרים לך להיכנס לפגישה מוכן */
+    notes: [
+      'תחום: ' + (A.field||''),
+      'מודל: ' + R.modelName,
+      'ציון בשלות: ' + R.score + '/100 (' + R.band.t + ')',
+      'מחיר ממוצע: ' + n(A.price) + '₪ | לקוחות: ' + n(A.cur) + '→' + n(A.goal),
+      'פער הכנסה חודשי: ' + Math.round(R.revGap) + '₪',
+      'שעות פנויות: ' + n(A.hours) + ' | נדרש: ' + R.timeNeed,
+      'תקציב: ' + n(A.budget) + '₪ | נדרש: ' + R.paidNeed + '₪',
+      'חסם: ' + (A.blocker||'') + ' | התנגדות: ' + (A.objection||''),
+      'כאב: ' + (A.pain||''),
+      'בידול: ' + (A.edge||'')
+    ].join(' • '),
+    answers: A, score: R.score
+  };
+
+  const sends = [];
+  if (CFG.CRM_URL) sends.push(fetch(CFG.CRM_URL, {
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(lead)
+  }).catch(()=>{}));
+  if (CFG.SHEET_URL && CFG.SHEET_URL.indexOf('http') === 0) sends.push(fetch(CFG.SHEET_URL, {
+    method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(lead)
+  }).catch(()=>{}));
+  try { await Promise.allSettled(sends); } catch(e){}
+
+  $('#gate').style.display = 'none';
+  renderReport(R, first, biz);
+  if (CFG.AI_URL) personalize(R, {first:first, business:biz});
+};
+
+/* ═══════════════════════════════════════════════════════════
+   הדוח
+   ═══════════════════════════════════════════════════════════ */
+function sec(icon, num, title, lead){
+  const s = el('section','sec');
+  const h = el('div','sec-t');
+  h.innerHTML = '<div class="ic">'+icon+'</div><div><span class="n">'+num+'</span></div>';
+  h.querySelector('div:last-child').appendChild(el('h3',null,title));
+  s.appendChild(h);
+  if (lead) s.appendChild(el('p','lead',lead));
+  return s;
+}
+/* עוגן תמונה — מופיע רק אם הקובץ קיים ב-assets/ */
+function anchor(sect, file, caption){
+  const f = el('figure','anchor');
+  const img = new Image();
+  img.onload = () => { f.classList.add('has'); };
+  img.onerror = () => {};
+  img.src = 'assets/' + file;
+  img.alt = caption || '';
+  f.appendChild(img);
+  if (caption) f.appendChild(el('figcaption',null,caption));
+  sect.appendChild(f);
+}
+
+function renderReport(R, first, biz){
+  const rep = $('#report'); rep.innerHTML = ''; rep.style.display = 'block';
+
+  /* כותרת */
+  const h = el('div','rep-h');
+  h.innerHTML = '<span class="eyebrow"><span class="dot"></span>הניתוח של ' + biz + '</span>';
+  h.appendChild(el('h1', null, first + ', זה מה שהמערכת מצאה'));
+  h.appendChild(el('p', null, 'ניתוח מבוסס על 25 התשובות שלך · מודל: ' + R.modelName));
+  rep.appendChild(h);
+
+  /* 1 — ציון */
+  const s1 = sec('📊','01 · אבחון','ציון הבשלות השיווקית שלך');
+  const circ = 2 * Math.PI * 62;
+  const w = el('div','score-wrap');
+  w.innerHTML =
+   '<div class="gauge"><svg width="150" height="150">' +
+   '<circle cx="75" cy="75" r="62" fill="none" stroke="#2a2a35" stroke-width="11"/>' +
+   '<circle id="gArc" cx="75" cy="75" r="62" fill="none" stroke="'+R.band.c+'" stroke-width="11" ' +
+   'stroke-linecap="round" stroke-dasharray="'+circ+'" stroke-dashoffset="'+circ+'" ' +
+   'style="transition:stroke-dashoffset 1.3s cubic-bezier(.4,0,.2,1)"/></svg>' +
+   '<div class="val"><b id="gNum" style="color:'+R.band.c+'">0</b><span>מתוך 100</span></div></div>' +
+   '<div class="score-txt"><h4 style="color:'+R.band.c+'">'+R.band.t+'</h4><p>'+R.band.d+'</p></div>';
+  s1.appendChild(w);
+
+  const SUBL = {assets:['נכסים',25],consistency:['עקביות',20],clarity:['בהירות מסר',20],
+                economics:['כלכלת עסק',15],sources:['מקורות לקוח',10],resources:['משאבים',10]};
+  const ssw = el('div','subscores');
+  Object.keys(SUBL).forEach(k => {
+    const [lbl,max] = SUBL[k], pc = Math.round(R.sub[k]/max*100);
+    const r = el('div','ss');
+    r.innerHTML = '<span class="lbl">'+lbl+'</span><div class="tr"><div class="fl" data-w="'+pc+'" ' +
+      'style="background:'+(pc<40?'#e2634f':pc<70?'#e8a33d':'#3fbf8f')+'"></div></div>' +
+      '<span class="pc">'+pc+'%</span>';
+    ssw.appendChild(r);
+  });
+  s1.appendChild(ssw);
+  rep.appendChild(s1);
+
+  /* 2 — מיצוב */
+  const s2 = sec('🎯','02 · בידול','משפט המיצוב שלך',
+    'זה הבסיס לכל מילה שתעלה מהיום. אם משפט אחד לא ברור — שום תוכן לא יציל את זה.');
+  const q = el('div','quote'); q.id = 'posBox';
+  if (R.positioning){
+    q.innerHTML = '<span class="mk">\u05f4</span><span id="posTxt"></span><span class="mk">\u05f4</span>';
+    q.querySelector('#posTxt').textContent = R.positioning;
+  } else {
+    q.style.fontSize = '15px'; q.style.fontWeight = '400';
+    R.posParts.forEach((pp,k) => {
+      const r = el('div');
+      r.style.cssText = 'display:flex;gap:12px;align-items:flex-start;' +
+        (k ? 'margin-top:13px;padding-top:13px;border-top:1px dashed rgba(212,164,65,.25);' : '');
+      r.innerHTML = '<span style="flex:0 0 96px;font-size:11.5px;font-weight:700;letter-spacing:.06em;' +
+        'color:var(--gold);padding-top:3px"></span><span style="flex:1;font-weight:600;line-height:1.5"></span>';
+      r.children[0].textContent = pp[0];
+      r.children[1].textContent = pp[1];
+      q.appendChild(r);
+    });
+  }
+  s2.appendChild(q);
+  if (CFG.AI_URL) s2.appendChild(el('div','aiwait','<span class="sp"></span>מחדד את הניסוח עבורך...'));
+  /* הסלוגן המוביל */
+  const slg = el('div'); slg.id = 'sloganWrap';
+  slg.style.cssText = 'margin-top:16px;background:var(--card2);border:1px solid var(--line);' +
+    'border-radius:14px;padding:16px;text-align:center';
+  slg.innerHTML = '<div style="font-size:11.5px;font-weight:700;letter-spacing:.1em;color:var(--gold);' +
+    'margin-bottom:8px">הסלוגן המוביל</div><div id="sloganTxt" style="font-size:16px;font-weight:700;' +
+    'line-height:1.5"></div>';
+  slg.querySelector('#sloganTxt').textContent = CFG.AI_URL
+    ? '...' : 'משפט אחד שהקהל שלך יזכור גם כשהוא לא מולך. זה אחד הדברים שנסגור יחד בפגישה.';
+  if (!CFG.AI_URL) slg.querySelector('#sloganTxt').style.color = 'var(--tx3)';
+  if (!CFG.AI_URL) slg.querySelector('#sloganTxt').style.fontWeight = '300';
+  s2.appendChild(slg);
+
+  /* העוגנים — חלק מפרק הבידול */
+  s2.appendChild(el('p','lead','<br><b style="color:var(--tx);font-weight:700">העוגנים שלך.</b> ' +
+    'עוגן הוא אלמנט קבוע שחוזר בכל תוכן ומייצר אצל הצופה זיהוי מיידי. ' +
+    'עם עוגן — אתה לא בונה אמון מחדש בכל סרטון.'));
+  const anc = el('div','anc');
+  R.anchors.forEach(x => {
+    const d = el('div','an');
+    d.innerHTML = '<span class="t"></span><p></p>';
+    d.querySelector('.t').textContent = x[0];
+    d.querySelector('p').textContent = x[1];
+    anc.appendChild(d);
+  });
+  s2.appendChild(anc);
+  anchor(s2,'anchor-1.jpg','');
+  rep.appendChild(s2);
+
+  /* 03 — משפך האמון */
+  const s2b = sec('🤝','03 · משפך האמון','Know · Like · Trust · Buy',
+    'אף אחד לא קונה מזר. ארבעת השלבים האלה הם הסדר שבו אדם עובר ממישהו שלא מכיר אותך ללקוח — ' +
+    'וכל פריט תוכן שאתה מעלה חייב לשרת אחד מהם. תוכן שלא משרת אף אחד מהם הוא בזבוז זמן.');
+  const kl = el('div','klt');
+  R.kltb.forEach(k => {
+    const d = el('div','kb');
+    d.innerHTML = '<div class="h"><b>'+k.k+'</b><i></i></div><p></p><ul></ul>';
+    d.querySelector('i').textContent = '· ' + k.he;
+    d.querySelector('p').textContent = k.d;
+    const ul = d.querySelector('ul');
+    k.items.forEach(t => { const li = el('li'); li.textContent = t; ul.appendChild(li); });
+    kl.appendChild(d);
+  });
+  s2b.appendChild(kl);
+  rep.appendChild(s2b);
+
+  /* 04 — Hook Story Offer */
+  const s2c = sec('🎣','04 · מודל התוכן','Hook · Story · Offer',
+    'המבנה שכל סרטון שלך צריך לעבור בו. הצופה זוכר איך גרמת לו להרגיש — לא מה אמרת.');
+  const arc = el('div','arc');
+  R.hso.arc.forEach((a2,i) => {
+    if (i) arc.appendChild(el('em',null,'←'));
+    arc.appendChild(el('span',null,a2));
+  });
+  s2c.appendChild(arc);
+  const hs = el('div','hso'); hs.style.marginTop = '16px';
+  [['HOOK · קרס',R.hso.hook],['STORY · סיפור',R.hso.story],['OFFER · הצעה',R.hso.offer]].forEach(x => {
+    const d = el('div','hs');
+    d.innerHTML = '<b></b><p></p>';
+    d.querySelector('b').textContent = x[0];
+    d.querySelector('p').textContent = x[1];
+    hs.appendChild(d);
+  });
+  s2c.appendChild(hs);
+  rep.appendChild(s2c);
+
+  /* 05 — סולם המוצרים */
+  const s2d = sec('🪜','05 · סולם מוצרים','סולם המוצרים ונסיעת המבחן',
+    'הטעות הכי יקרה של בעל עסק: להציע את המוצר היקר לאדם שפגש אותך לפני דקה. ' +
+    'סולם מוצרים הוא הדרך להוביל אותו אליו בשלושה צעדים במקום אחד.');
+  const lad = el('div','lad');
+  R.ladder.forEach((L,i) => {
+    const d = el('div','ld' + (i===1?' hi':''));
+    d.innerHTML = '<div class="top"><span class="tag"></span><span class="pr"></span></div>' +
+                  '<h5></h5><p></p><ul></ul>';
+    d.querySelector('.tag').textContent = L.tag;
+    d.querySelector('.pr').textContent = L.price;
+    d.querySelector('h5').textContent = L.name;
+    d.querySelector('p').textContent = L.d;
+    const ul = d.querySelector('ul');
+    L.list.forEach(t => { const li = el('li'); li.textContent = t; ul.appendChild(li); });
+    lad.appendChild(d);
+  });
+  s2d.appendChild(lad);
+  anchor(s2d,'anchor-2.jpg','');
+  rep.appendChild(s2d);
+
+  /* 06 — נוסחת הערך */
+  const s2e = sec('⚖️','06 · נוסחת הערך','ארבעת המנופים שקובעים כמה אתה שווה',
+    'ערך נתפס הוא לא המחיר. הוא היחס בין מה שהלקוח מקבל לבין כמה הוא מאמין, כמה זה ייקח וכמה זה ידרוש ממנו. ' +
+    'ארבעה מנופים — וכל אחד מהם ניתן להזזה.');
+  const veq = el('div','veq');
+  R.value.forEach(v => {
+    const d = el('div','ve');
+    d.innerHTML = '<b></b><p></p>';
+    d.querySelector('b').textContent = v[0];
+    d.querySelector('p').textContent = v[1];
+    veq.appendChild(d);
+  });
+  s2e.appendChild(veq);
+  rep.appendChild(s2e);
+
+  /* 3 — פלטפורמות */
+  const s3 = sec('📍','07 · ערוצים','איפה הקהל שלך באמת נמצא',
+    'לפי הגילאים, המגדר, האזור והמודל העסקי שלך — זה סדר העדיפויות. לא לפי מה שפופולרי.');
+  const pl = el('div','plat');
+  R.platforms.forEach(p => {
+    const d = el('div','pf' + (p.tier===1?' main':p.tier===3?' no':''));
+    const tag = p.tier===1?'<span class="tag t1">ערוץ ליבה</span>'
+             : p.tier===2?'<span class="tag t2">תומך</span>'
+             : '<span class="tag t3">לא עכשיו</span>';
+    d.innerHTML = '<span class="em">'+p.em+'</span><div class="b">'+tag+'<b></b><span></span></div>';
+    d.querySelector('b').textContent = p.name;
+    d.querySelector('.b span:last-child').textContent = p.why;
+    pl.appendChild(d);
+  });
+  s3.appendChild(pl);
+  anchor(s3,'anchor-2.jpg','');
+  rep.appendChild(s3);
+
+  /* 4 — תמהיל */
+  const s4 = sec('🎬','08 · תוכן','תמהיל התוכן שמתאים לך',
+    'מתוך כל 10 פריטי תוכן שאתה מעלה — זו החלוקה. תמהיל לא נכון הוא הסיבה מספר 1 לתוכן שלא מוכר.');
+  const mx = el('div','mix');
+  R.mix.forEach(m => {
+    const d = el('div','mx');
+    d.innerHTML = '<div class="top"><b></b><i>'+m[1]+'%</i></div>' +
+                  '<div class="tr"><div class="fl" data-w="'+m[1]+'"></div></div><p></p>';
+    d.querySelector('b').textContent = m[0];
+    d.querySelector('p').textContent = m[2];
+    mx.appendChild(d);
+  });
+  s4.appendChild(mx);
+  rep.appendChild(s4);
+
+  /* 5 — קצב */
+  const s5 = sec('⏱️','09 · קצב','כמה להעלות — בפועל', R.cadenceNote);
+  const cd = el('div','cad');
+  cd.innerHTML =
+   '<div class="cd"><b>'+R.feed+'</b><span>פריטים לפיד</span><i>בשבוע · רילס וקרוסלות</i></div>' +
+   '<div class="cd"><b>'+R.stories+'</b><span>סטוריז</span><i>בכל יום · לפחות אחד עם פנים</i></div>';
+  s5.appendChild(cd);
+  rep.appendChild(s5);
+
+  /* 6 — משפך */
+  const s6 = sec('🔻','10 · משפך','משפך השיווק שלך — ואיפה הוא דולף',
+    'זה המבנה המלא — מהרגע שזר רואה אותך ועד שהוא משלם. שלב אחד שבור עוצר את כל השרשרת.');
+  const fw = el('div','flow');
+  R.flow.forEach(f => {
+    const d = el('div','fw');
+    d.innerHTML = '<b></b><span class="c"></span><span class="g"></span>';
+    d.querySelector('b').textContent = f[0];
+    d.querySelector('.c').textContent = f[1];
+    d.querySelector('.g').textContent = 'המטרה: ' + f[2];
+    fw.appendChild(d);
+  });
+  s6.appendChild(fw);
+  s6.appendChild(el('p','lead','<br><b style="color:var(--tx);font-weight:700">ואיפה הוא דולף אצלך:</b>'));
+  const fn = el('div','fun');
+  R.funnel.forEach(f => {
+    const d = el('div','fs' + (f.ok?'':' gap'));
+    d.innerHTML = '<div class="h"><b></b><em>'+(f.ok?'✓ קיים':'✗ חסר')+'</em></div><p></p>';
+    d.querySelector('b').textContent = f.t;
+    d.querySelector('p').textContent = f.ok ? f.ok_t : f.no_t;
+    fn.appendChild(d);
+  });
+  s6.appendChild(fn);
+  anchor(s6,'anchor-3.jpg','');
+  rep.appendChild(s6);
+
+  /* 7 — מספרים */
+  const s7 = sec('📈','11 · יעד','המספרים מאחורי היעד שלך',
+    'לקחנו את היעד שכתבת ופירקנו אותו אחורה. זה מה שהוא דורש בפועל.');
+  const nb = el('div','nums');
+  nb.innerHTML =
+   '<div class="nm"><b>'+nis(R.revGap)+'</b><span>הכנסה חודשית שחסרה לך כדי להגיע ליעד</span></div>' +
+   '<div class="nm"><b>'+nis(R.profGap)+'</b><span>מזה — רווח נקי שנכנס לכיס</span></div>' +
+   '<div class="nm"><b>'+nis(R.revGap*12)+'</b><span>אותו פער, בשנה</span></div>' +
+   '<div class="nm"><b>'+R.gapClients+'</b><span>לקוחות חדשים בחודש שצריך להוסיף</span></div>';
+  s7.appendChild(nb);
+  const ch = el('div','chain');
+  ch.innerHTML =
+   '<div class="cr"><span class="k">לקוחות שצריך להוסיף בחודש</span><span class="v">'+R.gapClients+'</span></div>' +
+   '<div class="cr"><span class="k">שיעור סגירה טיפוסי במודל שלך</span><span class="v">'+R.closeRate+'%</span></div>' +
+   '<div class="cr"><span class="k">פניות ולידים שצריך לייצר בחודש</span><span class="v">'+R.leads.toLocaleString('he-IL')+'</span></div>' +
+   '<div class="cr"><span class="k">חשיפות שנדרשות כדי לייצר אותם</span><span class="v">'+R.reach.toLocaleString('he-IL')+'</span></div>';
+  s7.appendChild(ch);
+  s7.appendChild(el('p','lead','<br>זה לא מספר מפחיד — זה מספר שאפשר לתכנן. ' + R.reach.toLocaleString('he-IL') +
+    ' חשיפות בחודש זה בערך ' + Math.ceil(R.reach/4/Math.max(1,R.feed)).toLocaleString('he-IL') +
+    ' צפיות ממוצעות לכל פריט תוכן, בקצב של ' + R.feed + ' בשבוע.'));
+  rep.appendChild(s7);
+
+  /* 8 — פער ההשקעה */
+  const s8 = sec('💰','12 · השקעה','מה זה דורש ממך — זמן וכסף',
+    'זה החלק שרוב האנשים מגלים מאוחר מדי.');
+  const okT = R.timeGap === 0, okB = R.budgetGap === 0;
+  const tb = el('div','gapbox' + (okT?' ok':''));
+  tb.innerHTML = '<b>' + (okT ? '✓ הזמן שלך מספיק' : '⏱ פער זמן: ' + R.timeGap + ' שעות בשבוע') + '</b><p>' +
+    'התוכנית דורשת כ־<b style="color:var(--tx)">' + R.timeNeed + ' שעות שבועיות</b> — צילום, עריכה, כתיבה ומענה. ' +
+    'אמרת שיש לך ' + R.timeHave + '. ' +
+    (okT ? 'זה עובד — בתנאי שהשעות האלה קבועות ביומן ולא ״כשיהיה זמן״.'
+         : 'הפער הזה הוא הסיבה שרוב בעלי העסקים מתחילים חזק ונעלמים אחרי שלושה שבועות.') + '</p>';
+  s8.appendChild(tb);
+  const bb = el('div','gapbox' + (okB?' ok':''));
+  bb.innerHTML = '<b>' + (okB ? '✓ התקציב שלך מספיק' : '💸 פער תקציב: ' + nis(R.budgetGap) + ' בחודש') + '</b><p>' +
+    'כדי לייצר ' + R.leads.toLocaleString('he-IL') + ' פניות בממומן נדרשים כ־<b style="color:var(--tx)">' +
+    nis(R.paidNeed) + ' בחודש</b>. אתה משקיע היום ' + nis(R.budgetHave) + '. ' +
+    (R.profGap > R.paidNeed
+      ? 'הרווח מהיעד (' + nis(R.profGap) + ') גדול פי ' + (Math.round(R.profGap/Math.max(1,R.paidNeed)*10)/10) +
+        ' מההשקעה הנדרשת — כלכלית זה משתלם.'
+      : 'שים לב: הרווח מהיעד קטן מההשקעה בממומן. אצלך הצמיחה חייבת להגיע מאורגני והמלצות, לא מתקציב.') +
+    '</p>';
+  s8.appendChild(bb);
+  rep.appendChild(s8);
+
+  /* 9 — רעיונות */
+  const s9 = sec('💡','13 · ביצוע','3 פריטי התוכן הראשונים שלך',
+    'לא רעיונות כלליים — אלה נבנו מהתשובות שכתבת. אפשר לצלם את הראשון היום.');
+  const ib = el('div','ideas'); ib.id = 'ideasBox';
+  R.ideas.forEach((it,i) => {
+    const d = el('div','id');
+    d.innerHTML = '<div class="n">'+(i+1)+'</div><div><b></b><p></p><em></em></div>';
+    d.querySelector('b').textContent = it.t;
+    d.querySelector('p').textContent = it.b;
+    d.querySelector('em').textContent = it.f;
+    ib.appendChild(d);
+  });
+  s9.appendChild(ib);
+  if (CFG.AI_URL) s9.appendChild(el('div','aiwait','<span class="sp"></span>מתאים את הרעיונות לעסק שלך...'));
+  rep.appendChild(s9);
+
+  /* 14 — המשימות */
+  const s10 = sec('✅','14 · משמעת','המשימות שלך — מהיום',
+    'כל מה שקראת עד עכשיו מתמוטט בלי שלוש השורות האלה. הן לא רעיונות — הן שגרה.');
+  const tsk = el('div','tsk');
+  R.tasks.forEach(t => {
+    const d = el('div','tk');
+    d.innerHTML = '<span class="x"></span><div><b></b><p></p></div>';
+    d.querySelector('b').textContent = t[0];
+    d.querySelector('p').textContent = t[1];
+    tsk.appendChild(d);
+  });
+  s10.appendChild(tsk);
+  anchor(s10,'anchor-4.jpg','');
+  rep.appendChild(s10);
+
+  /* 10 — CTA */
+  const cta = el('div','cta');
+  cta.innerHTML =
+   '<h3>קיבלת את <span class="grad">מה</span> ואת <span class="grad">למה</span>.<br>נשאר ה<span class="grad">מתי</span>.</h3>' +
+   '<p>כל מה שקראת עכשיו הוא האסטרטגיה. מה שהופך אסטרטגיה לתוצאה זה לוח זמנים — ' +
+   'לדעת מה מצלמים ביום שני, מה עולה ביום רביעי, ומה כותבים בכיתוב.</p>' +
+   '<div class="gets">' +
+     '<div class="get"><span class="v">✓</span><span><b>גאנט תוכן מלא לחודש הראשון</b> — תאריך, פורמט, נושא, לכל פריט</span></div>' +
+     '<div class="get"><span class="v">✓</span><span><b>קריאטיב מוכן</b> — הוקים, תסריטים וכיתובים לכתוב מהם</span></div>' +
+     '<div class="get"><span class="v">✓</span><span><b>לו״ז העלאות יומי</b> — כולל סטוריז, כדי שלא תחשוב על זה כל בוקר</span></div>' +
+     '<div class="get"><span class="v">✓</span><span><b>סגירת הפער במשפך</b> — הנכס שחסר לך, מוקם ומחובר</span></div>' +
+   '</div>' +
+   '<button class="btn" id="ctaBtn">בוא נקבע פגישה ←</button>' +
+   '<p class="fine">פגישה אחת, ' + CFG.PRICE_TXT + '. יוצאים ממנה עם חודש שלם סגור.</p>';
+  rep.appendChild(cta);
+
+  const again = el('button','btn ghost','שלח את הניתוח למישהו שצריך אותו');
+  again.style.marginTop = '12px';
+  again.onclick = () => {
+    const t = 'עשיתי אבחון שיווקי לעסק שלי וקיבלתי תוכנית מלאה. הציון שלי: ' + R.score + '/100. ' + location.href;
+    if (navigator.share) navigator.share({text:t}).catch(()=>{});
+    else { navigator.clipboard.writeText(t); again.textContent = 'הועתק ✓'; }
+  };
+  rep.appendChild(again);
+
+  $('#foot').innerHTML = (CFG.SIGN || CFG.BRAND) +
+    '<br><span style="opacity:.6">הניתוח מבוסס על התשובות שמסרת ועל בנצ׳מרקים שמרניים של שוק ישראלי.</span>';
+
+  window.scrollTo(0,0);
+
+  /* אנימציות */
+  setTimeout(() => {
+    const arc = document.getElementById('gArc');
+    if (arc) arc.style.strokeDashoffset = (circ * (1 - R.score/100)) + '';
+    document.querySelectorAll('.fl').forEach(f => f.style.width = f.dataset.w + '%');
+    let v = 0; const num = document.getElementById('gNum');
+    const iv = setInterval(() => { v += Math.max(1, Math.round(R.score/28));
+      if (v >= R.score){ v = R.score; clearInterval(iv); }
+      if (num) num.textContent = v; }, 26);
+  }, 220);
+
+  document.getElementById('ctaBtn').onclick = () => {
+    if (CFG.MEETING) { window.open(CFG.MEETING,'_blank'); return; }
+    const msg = encodeURIComponent(
+      'היי! סיימתי את האבחון השיווקי. שם העסק: ' + biz + ', הציון שלי ' + R.score +
+      '/100. אשמח לקבוע פגישה ולהפוך את זה לתוכנית עבודה.');
+    window.open('https://wa.me/' + CFG.WHATSAPP + '?text=' + msg, '_blank');
+  };
+}
+
+/* ═══════════════════════════════════════════════════════════
+   שכבת ה-AI — משכתבת את הטקסטים האישיים אחרי שהדוח כבר מוצג
+   ═══════════════════════════════════════════════════════════ */
+async function personalize(R, who){
+  try {
+    const res = await fetch(CFG.AI_URL, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({answers:A, computed:{
+        model:R.modelName, audience:R.audience, score:R.score, band:R.band.t,
+        platforms:R.platforms.filter(p=>p.tier===1).map(p=>p.name),
+        feed:R.feed, stories:R.stories, gapClients:R.gapClients,
+        revGap:Math.round(R.revGap), leads:R.leads,
+        timeNeed:R.timeNeed, timeHave:R.timeHave
+      }, who:who})
+    });
+    if (!res.ok) throw 0;
+    const d = await res.json();
+
+    if (d.positioning){
+      const box = document.getElementById('posBox');
+      if (box){
+        box.style.fontSize = ''; box.style.fontWeight = '';
+        box.innerHTML = '<span class="mk">\u05f4</span><span id="posTxt"></span><span class="mk">\u05f4</span>';
+        box.querySelector('#posTxt').textContent = d.positioning;
+        box.classList.add('fade-in');
+      }
+    }
+    if (d.slogan){
+      const t = document.getElementById('sloganTxt');
+      if (t){ t.textContent = d.slogan; t.style.color = 'var(--gold2)';
+              t.style.fontWeight = '900'; t.style.fontSize = '19px';
+              t.parentElement.classList.add('fade-in'); }
+    }
+    if (d.hook){
+      const hb = document.querySelectorAll('.hs p')[0];
+      if (hb){ hb.textContent = d.hook; hb.parentElement.classList.add('fade-in'); }
+    }
+    if (Array.isArray(d.ideas) && d.ideas.length){
+      const box = document.getElementById('ideasBox');
+      if (box){
+        box.innerHTML = '';
+        d.ideas.slice(0,3).forEach((it,i) => {
+          const e = el('div','id fade-in');
+          e.innerHTML = '<div class="n">'+(i+1)+'</div><div><b></b><p></p><em></em></div>';
+          e.querySelector('b').textContent = it.title || '';
+          e.querySelector('p').textContent = it.body || '';
+          e.querySelector('em').textContent = it.format || '';
+          box.appendChild(e);
+        });
+      }
+    }
+    document.querySelectorAll('.aiwait').forEach(x => x.remove());
+  } catch(e){
+    document.querySelectorAll('.aiwait').forEach(x => x.remove());
+  }
+}
+</script>
+</body>
+</html>
