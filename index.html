@@ -444,7 +444,7 @@ const STEPS = [
     {v:"kids",     t:"ילדים, הורות וחינוך"},
     {v:"tech",     t:"טכנולוגיה, דיגיטל ושירותי עסקים"},
     {v:"leisure",  t:"תיירות, אירועים ופנאי"},
-    {v:"other",    t:"אחר"}
+    {v:"other",    t:"אחר", other:true, ph:"באיזה תחום?"}
   ]},
   {id:"model", type:"choice", label:"מה המודל העסקי שלך?", hint:"זו השאלה שמשנה הכי הרבה בהמלצות שתקבל.", opts:[
     {v:"service", t:"שירות אישי", d:"אתה נותן את השירות בעצמך — אימון, טיפול, ייעוץ"},
@@ -533,7 +533,8 @@ const STEPS = [
   {id:"sources", type:"multi", label:"מאיפה מגיעים אליך הלקוחות היום?", opts:[
     {v:"ref",t:"המלצות מפה לאוזן"},{v:"ig",t:"אינסטגרם / טיקטוק"},
     {v:"goo",t:"חיפוש בגוגל"},{v:"ads",t:"פרסום ממומן"},
-    {v:"walk",t:"מהמקום הפיזי"},{v:"net",t:"קשרים ונטוורקינג"},{v:"none",t:"כמעט לא מגיעים"}
+    {v:"walk",t:"מהמקום הפיזי"},{v:"net",t:"קשרים ונטוורקינג"},
+    {v:"other",t:"אחר",other:true,ph:"מאיפה?"},{v:"none",t:"כמעט לא מגיעים"}
   ]}
 ]},
 
@@ -543,14 +544,16 @@ const STEPS = [
     {v:"know",  t:"״לא מכיר אותך / לא בטוח בך״"},
     {v:"what",  t:"״לא הבנתי בדיוק מה אתה נותן״"},
     {v:"comp",  t:"״מצאתי מישהו זול יותר״"},
-    {v:"time",  t:"״עכשיו זה לא הזמן״"}
+    {v:"time",  t:"״עכשיו זה לא הזמן״"},
+    {v:"other", t:"משהו אחר", other:true, ph:"מה הם אומרים לך בפועל?"}
   ]},
   {id:"blocker", type:"choice", label:"מה הכי מעכב אותך בשיווק עצמו?", opts:[
     {v:"time",  t:"אין לי זמן"},
     {v:"what",  t:"לא יודע מה להעלות"},
     {v:"cam",   t:"לא נוח לי מול מצלמה"},
     {v:"money", t:"אין תקציב"},
-    {v:"result",t:"מעלה — ולא קורה כלום"}
+    {v:"result",t:"מעלה — ולא קורה כלום"},
+    {v:"other", t:"משהו אחר", other:true, ph:"מה עוצר אותך?"}
   ]},
   {id:"edge", type:"area", label:"במה אתה טוב יותר מהמתחרים שלך?", hint:"דבר אחד קונקרטי. לא ״שירות ואיכות״.",
    ph:"לדוגמה: אני מתאמן יחד עם הלקוח, לא עומד מהצד"}
@@ -617,11 +620,14 @@ function renderQ(q){
         A[q.id] = op.v;
         o.querySelectorAll('.opt').forEach(x => x.classList.remove('on'));
         b.classList.add('on');
+        syncOther(q, w);
         $('#qErr').style.display = 'none';
       };
       o.appendChild(b);
     });
     w.appendChild(o);
+    addOther(q, w);
+    syncOther(q, w);
   }
 
   else if (q.type === 'multi'){
@@ -647,6 +653,9 @@ function renderQ(q){
       o.appendChild(b);
     });
     w.appendChild(o); sync();
+    addOther(q, w);
+    syncOther(q, w);
+    o.addEventListener('click', () => syncOther(q, w));
   }
 
   else if (q.type === 'area' || q.type === 'text'){
@@ -668,6 +677,33 @@ function renderQ(q){
   return w;
 }
 
+/* תיבת "אחר" — נוצרת פעם אחת ומוצגת רק כשהאפשרות נבחרה */
+function otherOpt(q){ return (q.opts || []).find(o => o.other); }
+
+function addOther(q, w){
+  const oo = otherOpt(q);
+  if (!oo) return;
+  const t = el('input','fld');
+  t.style.marginTop = '9px';
+  t.placeholder = oo.ph || 'פרט כאן';
+  t.value = A[q.id + '_txt'] || '';
+  t.dataset.other = '1';
+  t.oninput = () => { A[q.id + '_txt'] = t.value; $('#qErr').style.display = 'none'; };
+  w.appendChild(t);
+}
+
+function syncOther(q, w){
+  const oo = otherOpt(q);
+  if (!oo) return;
+  const t = w.querySelector('[data-other]');
+  if (!t) return;
+  const on = q.type === 'multi'
+    ? (A[q.id] || []).indexOf(oo.v) > -1
+    : A[q.id] === oo.v;
+  t.style.display = on ? 'block' : 'none';
+  if (on) setTimeout(() => t.focus(), 60);
+}
+
 function validate(){
   for (const q of STEPS[si].q){
     const v = A[q.id];
@@ -679,6 +715,13 @@ function validate(){
     } else if (q.type === 'num' || q.type === 'money'){
       if (v === '' || v == null || isNaN(+v) || +v < 0) return 'מלא מספר תקין ב״' + q.label + '״';
     } else if (!v) return 'בחר תשובה ב״' + q.label + '״';
+
+    const oo = otherOpt(q);
+    if (oo){
+      const picked = q.type === 'multi' ? (v || []).indexOf(oo.v) > -1 : v === oo.v;
+      const txt = (A[q.id + '_txt'] || '').trim();
+      if (picked && txt.length < 3) return 'בחרת ״' + oo.t + '״ — כתוב במה מדובר.';
+    }
   }
   return null;
 }
@@ -705,6 +748,11 @@ $('#next').onclick = () => {
    ═══════════════════════════════════════════════════════════ */
 const has = (arr, v) => (arr || []).indexOf(v) > -1;
 const n   = v => { const x = parseFloat(v); return isNaN(x) ? 0 : x; };
+/* ההתנגדות כטקסט — נופל לטקסט החופשי כשנבחר "אחר" */
+function objT(a, map, dflt){
+  if (a.objection === 'other') return (a.objection_txt || dflt || 'ההתנגדות שציינת').trim();
+  return map[a.objection] || dflt || 'ההתנגדות שציינת';
+}
 const nis = x => Math.round(x).toLocaleString('he-IL') + ' ₪';
 
 const FIELD_NOUN = {
@@ -836,7 +884,7 @@ function engine(a){
     {t:'3 · אמון — שיאמינו לך', ok: has(a.sources||[],'ref'),
      ok_t:'המלצות כבר עובדות בשבילך — צריך להעביר אותן מהפה לאוזן אל המסך. ' + stor + ' סטוריז ביום, מהם לפחות אחד עדות או תוצאה.',
      no_t:'זה החור הגדול שלך. אין הוכחה חברתית גלויה, ולכן ההתנגדות ״' +
-          ({price:'יקר לי',know:'לא מכיר אותך',what:'לא הבנתי מה אתה נותן',comp:'מצאתי זול יותר',time:'לא הזמן'}[a.objection]) +
+          objT(a, {price:'יקר לי',know:'לא מכיר אותך',what:'לא הבנתי מה אתה נותן',comp:'מצאתי זול יותר',time:'לא הזמן'}) +
           '״ חוזרת שוב ושוב.'},
     {t:'4 · המרה — שיפנו אליך', ok: hasConv,
      ok_t:'יש לך נכס המרה. הוא צריך להופיע בכל סטורי שלישי ובביו — לא רק כשאתה ״מוכר״.',
@@ -889,7 +937,8 @@ function engine(a){
                    {t:'בשל להאצה', c:'#d4a441', d:'הבסיס חזק. מכאן הצמיחה מגיעה מהכפלה של מה שכבר עובד — ומהוצאה של העבודה מהידיים שלך.'};
 
   /* ── משפט מיצוב (טיוטת כללים; ה-AI משכתב) ── */
-  const noun = FIELD_NOUN[a.field] || 'בעל מקצוע';
+  const noun = a.field === 'other' && a.field_txt
+    ? (a.field_txt.trim().split(/\s+/)[0]) : (FIELD_NOUN[a.field] || 'בעל מקצוע');
   const painShort = (a.pain||'').trim().split(/[.\n]/)[0].slice(0,110);
   const edgeShort = (a.edge||'').trim().split(/[.\n]/)[0].slice(0,90);
   R.posParts = [
@@ -900,8 +949,10 @@ function engine(a){
   R.positioning = '';   /* משפט אחד מלוטש — נכתב ע״י שכבת ה-AI */
 
   /* ── 3 רעיונות תוכן ── */
-  const objTxt = {price:'״יקר לי״', know:'״אני לא מכיר אותך״', what:'״לא הבנתי מה אתה נותן״',
-                  comp:'״יש זול יותר״', time:'״לא עכשיו״'}[a.objection];
+  const objTxtMap = {price:'״יקר לי״', know:'״אני לא מכיר אותך״', what:'״לא הבנתי מה אתה נותן״',
+                  comp:'״יש זול יותר״', time:'״לא עכשיו״'};
+  const objTxt = a.objection === 'other' ? '״' + (a.objection_txt||'').trim() + '״'
+                                         : objTxtMap[a.objection];
   R.ideas = [
     {t:'הסרטון שסוגר את ההתנגדות',
      b:'מול המצלמה: ״כל פעם אומרים לי ' + objTxt + '. אז בוא נדבר על זה בכנות.״ ' +
@@ -968,7 +1019,7 @@ function engine(a){
     {k:'Know', he:'חשיפה', d:'שיראו אותך מי שלא מכיר. פה נמדדת הגעה לזרים בלבד — לא לייקים.', items:KL.k},
     {k:'Like', he:'חיבור', d:'שירצו אותך. תוכן שאין בו שום ערך מקצועי — ובלעדיו לא קונים.', items:KL.l},
     {k:'Trust', he:'אמון',  d:'שיאמינו לך. פה נשברת ההתנגדות ״' +
-      ({price:'יקר לי',know:'לא מכיר אותך',what:'לא הבנתי מה אתה נותן',comp:'יש זול יותר',time:'לא עכשיו'}[a.objection]) + '״.', items:KL.t},
+      objT(a, {price:'יקר לי',know:'לא מכיר אותך',what:'לא הבנתי מה אתה נותן',comp:'יש זול יותר',time:'לא עכשיו'}) + '״.', items:KL.t},
     {k:'Buy', he:'רכישה', d:'שיפנו אליך. אחרי שלושת השלבים הקודמים — זה החלק הקל.', items:KL.b}
   ];
 
@@ -1050,7 +1101,7 @@ function engine(a){
   R.value = [
     ['↑ הגדלת התוצאה הנחשקת','להפסיק למכור את מה שאתה עושה ולהתחיל למכור את מה שהלקוח מקבל. ' +
       'לא ״' + (FIELD_NOUN[a.field]||'שירות') + '״ — אלא הסוף של: ' + painQ.slice(0,70) + '.'],
-    ['↑ העלאת הוודאות','ההתנגדות שלך היא ' + ({price:'מחיר',know:'זרות',what:'חוסר בהירות',comp:'תחרות',time:'דחייה'}[a.objection]) +
+    ['↑ העלאת הוודאות','ההתנגדות שלך היא ' + objT(a, {price:'מחיר',know:'זרות',what:'חוסר בהירות',comp:'תחרות',time:'דחייה'}) +
       '. הכלי היחיד שפותר אותה הוא הוכחה: ' + (has(a.sources||[],'ref')
       ? 'ההמלצות כבר קיימות אצלך — הן פשוט לא מצולמות. זו המשימה הראשונה.'
       : 'לבנות תיקייה של כל תוצאה, הודעה ומחמאה, ולהתחיל לפרסם אותן בקביעות.')],
@@ -1127,7 +1178,9 @@ $('#gBtn').onclick = async () => {
                || 'אינסטגרם';
   const ganttCode = 'SE1-' + b64_({
     b: biz, m: R.model, c: chan, f: R.feed, s: R.stories, l: R.lowPrice,
-    o: A.objection, p: A.pain, e: A.edge, g: R.magnets[0]
+    o: A.objection === 'other' ? 'price' : A.objection,
+    ot: A.objection_txt || '',
+    p: A.pain, e: A.edge, g: R.magnets[0]
   });
 
   const lead = {
@@ -1143,7 +1196,9 @@ $('#gBtn').onclick = async () => {
       'פער הכנסה חודשי: ' + Math.round(R.revGap) + '₪',
       'שעות פנויות: ' + n(A.hours) + ' | נדרש: ' + R.timeNeed,
       'תקציב: ' + n(A.budget) + '₪ | נדרש: ' + R.paidNeed + '₪',
-      'חסם: ' + (A.blocker||'') + ' | התנגדות: ' + (A.objection||''),
+      'חסם: ' + (A.blocker === 'other' ? A.blocker_txt : (A.blocker||'')) +
+        ' | התנגדות: ' + (A.objection === 'other' ? A.objection_txt : (A.objection||'')) +
+        (A.field === 'other' ? ' | תחום: ' + (A.field_txt||'') : ''),
       'כאב: ' + (A.pain||''),
       'בידול: ' + (A.edge||'')
     ].join(' • '),
