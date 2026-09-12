@@ -32,7 +32,13 @@ function doPost(e){
     const d = JSON.parse(e.postData.contents);
 
     /* שני תפקידים בכתובת אחת — ניסוח ה-AI, או שמירת ליד */
-    if (d.mode === 'ai') return out_(personalize_(d));
+    if (d.mode === 'ai'){
+      const res = personalize_(d);
+      /* ההפניה של Apps Script לא מחזירה את הגוף לדפדפן, אז שומרים
+         את התוצאה במטמון והלקוח מושך אותה לפי המזהה ששלח */
+      if (d.rid) CacheService.getScriptCache().put(d.rid, JSON.stringify(res), 600);
+      return out_(res);
+    }
 
     const sh = SguiSheet_();
     const a  = d.answers || {};
@@ -56,7 +62,14 @@ function doPost(e){
   }
 }
 
-function doGet(){ return out_({ok:true, alive:true}); }
+function doGet(e){
+  const rid = e && e.parameter && e.parameter.rid;
+  if (rid){
+    const hit = CacheService.getScriptCache().get(rid);
+    return out_(hit ? JSON.parse(hit) : {pending:true});
+  }
+  return out_({ok:true, alive:true});
+}
 
 /* ── המייל ── */
 function notify_(d, a){

@@ -1615,11 +1615,14 @@ function renderReport(R, first, biz){
    ═══════════════════════════════════════════════════════════ */
 async function personalize(R, who){
   try {
+    /* מזהה אקראי — רק כדי למשוך את התוצאה. בלי שום מידע אישי בכתובת */
+    const rid = 'r' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+
     const res = await fetch(CFG.AI_URL, {
       method:'POST',
       /* text/plain = בקשה פשוטה בלי preflight — כך Apps Script מקבל אותה */
       headers:{'Content-Type':'text/plain;charset=utf-8'},
-      body: JSON.stringify({mode:'ai', answers:A, computed:{
+      body: JSON.stringify({mode:'ai', rid:rid, answers:A, computed:{
         model:R.modelName, audience:R.audience, score:R.score, band:R.band.t,
         platforms:R.platforms.filter(p=>p.tier===1).map(p=>p.name),
         feed:R.feed, stories:R.stories, gapClients:R.gapClients,
@@ -1628,8 +1631,21 @@ async function personalize(R, who){
       }, who:who})
     });
     if (!res.ok) throw 0;
-    const d = await res.json();
-    if (d.error) throw 0;
+
+    /* התשובה הישירה נבלעת בהפניה — מושכים את התוצאה לפי המזהה */
+    let d = null;
+    try { d = await res.json(); } catch(e){}
+    if (!d || (!d.slogan && !d.positioning)){
+      for (let i = 0; i < 20 && !(d && d.slogan); i++){
+        await new Promise(r => setTimeout(r, 1500));
+        try {
+          const p = await fetch(CFG.AI_URL + '?rid=' + rid);
+          const j = await p.json();
+          if (j && !j.pending) d = j;
+        } catch(e){}
+      }
+    }
+    if (!d || d.error || !d.slogan) throw 0;
 
     if (d.positioning){
       const box = document.getElementById('posBox');
