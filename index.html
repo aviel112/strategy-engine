@@ -1616,8 +1616,10 @@ function renderReport(R, first, biz){
 async function personalize(R, who){
   try {
     const res = await fetch(CFG.AI_URL, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({answers:A, computed:{
+      method:'POST',
+      /* text/plain = בקשה פשוטה בלי preflight — כך Apps Script מקבל אותה */
+      headers:{'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({mode:'ai', answers:A, computed:{
         model:R.modelName, audience:R.audience, score:R.score, band:R.band.t,
         platforms:R.platforms.filter(p=>p.tier===1).map(p=>p.name),
         feed:R.feed, stories:R.stories, gapClients:R.gapClients,
@@ -1627,6 +1629,7 @@ async function personalize(R, who){
     });
     if (!res.ok) throw 0;
     const d = await res.json();
+    if (d.error) throw 0;
 
     if (d.positioning){
       const box = document.getElementById('posBox');

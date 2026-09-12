@@ -13,6 +13,13 @@
 const NOTIFY = 'aviamira5@gmail.com';
 const GANTT  = 'https://aviel112.github.io/strategy-engine/gantt/';
 
+/* ← כאן להדביק את המפתח מ-aistudio.google.com/apikey */
+const GEMINI_KEY = 'PASTE_YOUR_KEY_HERE';
+
+/* Flash קודם — הוא מה שזמין במכסה החינמית */
+const MODELS = ['gemini-3-flash-preview','gemini-2.5-flash',
+                'gemini-3.1-flash-lite-preview','gemini-2.5-flash-lite'];
+
 const HEAD = ['תאריך','שם','עסק','טלפון','אינסטגרם','ציון','מודל','תחום',
               'מחיר ממוצע','לקוחות היום','יעד','פער חודשי ₪','תקציב','שעות',
               'התנגדות','חסם','הכאב','הבידול','קוד לגאנט','כל התשובות'];
@@ -20,6 +27,10 @@ const HEAD = ['תאריך','שם','עסק','טלפון','אינסטגרם','צי
 function doPost(e){
   try {
     const d = JSON.parse(e.postData.contents);
+
+    /* שני תפקידים בכתובת אחת — ניסוח ה-AI, או שמירת ליד */
+    if (d.mode === 'ai') return out_(personalize_(d));
+
     const sh = SguiSheet_();
     const a  = d.answers || {};
 
@@ -119,4 +130,106 @@ function row_(k, v){
 function out_(o){
   return ContentService.createTextOutput(JSON.stringify(o))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   שכבת ה-AI — מנסחת את החלקים האישיים דרך Gemini
+   ═══════════════════════════════════════════════════════════════ */
+
+const SYSTEM = `אתה יועץ שיווק ישראלי ותיק שכותב עבור בעל עסק קטן.
+
+הקלט הוא תשובות שבעל העסק מילא בשאלון אבחון, יחד עם תוצאות של מנוע כללים שכבר חישב עבורו פלטפורמות, תמהיל תוכן ומספרים. המשימה שלך היא רק החלקים שדורשים ניסוח אנושי.
+
+כללי כתיבה — קריטיים:
+- עברית טבעית ומדוברת. לא תרגומית, לא מנופחת, בלי ז'רגון שיווקי ריק.
+- להשתמש במילים שלו: הכאב, הסיפור והבידול שהוא כתב חוזרים בטקסט כמעט כלשונם. זה מה שגורם לו להרגיש שמישהו קרא אותו.
+- לפנות אליו בגוף שני יחיד, בגובה העיניים. בלי "אנו ממליצים".
+- קונקרטי מעל הכל. "תצלם את הרגע שאתה מרים איתו את המשקולת" ולא "תייצר תוכן אותנטי".
+- בלי אימוג'ים. בלי כותרות משנה. בלי סימני קריאה מיותרים.
+
+הסלוגן המוביל: עד 6 מילים, קליט, שאפשר לחתום בו כל סרטון. נובע מהבידול הספציפי שלו, לא סיסמה גנרית. בלי חריזה מאולצת.
+
+ההוק: משפט פתיחה אחד לסרטון שעוצר גלילה בשלוש שניות. חייב לגעת בכאב שהוא כתב, במילים של הצופה. במרכאות.
+
+משפט המיצוב: משפט אחד, גוף ראשון, שמחבר את מי שהוא פונה אליו + הבעיה שהוא פותר + הבידול. חייב להיות משפט שהוא באמת יכול לשים בביו. עד 28 מילים.
+
+שלושת רעיונות התוכן: מותאמים לפלטפורמה הראשית שלו, לטון שבחר, ולהתנגדות שציין. כל רעיון חייב להיות משהו שאפשר לצלם השבוע עם הטלפון — לא הפקה. אחד מהשלושה חייב להתמודד ישירות עם ההתנגדות שלו.`;
+
+const SCHEMA = {
+  type: 'OBJECT',
+  properties: {
+    positioning: {type:'STRING', description:'משפט מיצוב אחד בעברית, עד 28 מילים, בגוף ראשון'},
+    slogan:      {type:'STRING', description:'סלוגן מוביל, עד 6 מילים'},
+    hook:        {type:'STRING', description:'משפט פתיחה אחד לסרטון, במרכאות'},
+    ideas: {
+      type:'ARRAY',
+      items:{ type:'OBJECT',
+        properties:{
+          title:  {type:'STRING'},
+          body:   {type:'STRING', description:'2-4 משפטים: מה מצלמים, מה אומרים, ולמה זה עובד אצלו'},
+          format: {type:'STRING', description:'פורמט ואורך, למשל: ריל · 45-60 שניות'}
+        },
+        required:['title','body','format'] }
+    }
+  },
+  required:['positioning','slogan','hook','ideas']
+};
+
+function personalize_(d){
+  if (!GEMINI_KEY || GEMINI_KEY.indexOf('PASTE') === 0) return {error:'no_key'};
+
+  const a = d.answers || {}, c = d.computed || {}, w = d.who || {};
+  const brief = [
+    'שם: ' + (w.first||'') + ' | עסק: ' + (w.business||''),
+    'תחום: ' + (a.field||'') + (a.field_txt ? ' (' + a.field_txt + ')' : '') +
+      ' | מודל עסקי: ' + (c.model||''),
+    'קהל: ' + (c.audience||'') + ' | טון שבחר: ' + (a.tone||''),
+    'הבעיה שהוא פותר, במילים שלו: "' + (a.pain||'') + '"',
+    'למה הוא התחיל: "' + (a.why||'') + '"',
+    'הבידול שלו, במילים שלו: "' + (a.edge||'') + '"',
+    'ערכים: ' + (a.values||[]).join(', '),
+    'ההתנגדות שחוזרת אצלו: ' + (a.objection === 'other' ? a.objection_txt : a.objection),
+    'מה מעכב אותו בשיווק: ' + (a.blocker === 'other' ? a.blocker_txt : a.blocker),
+    'פלטפורמות ליבה: ' + (c.platforms||[]).join(', '),
+    'קצב: ' + c.feed + ' לפיד בשבוע, ' + c.stories + ' סטוריז ביום',
+    'ציון בשלות: ' + c.score + '/100 (' + c.band + ')',
+    'פער: ' + c.gapClients + ' לקוחות ו-' + c.revGap + ' ש"ח בחודש'
+  ].join('\n');
+
+  const payload = JSON.stringify({
+    systemInstruction: {parts:[{text: SYSTEM}]},
+    contents: [{role:'user', parts:[{text: brief}]}],
+    generationConfig: {
+      responseMimeType: 'application/json',
+      responseSchema: SCHEMA,
+      temperature: 0.9
+    }
+  });
+
+  /* מנסה מודל אחרי מודל — אם אחד חסום או נגמרה לו המכסה, יורד לבא */
+  for (let i = 0; i < MODELS.length; i++){
+    try {
+      const r = UrlFetchApp.fetch(
+        'https://generativelanguage.googleapis.com/v1beta/models/' + MODELS[i] + ':generateContent',
+        { method:'post', contentType:'application/json', payload: payload,
+          headers:{'x-goog-api-key': GEMINI_KEY}, muteHttpExceptions:true });
+
+      if (r.getResponseCode() !== 200){
+        console.warn(MODELS[i], r.getResponseCode(), r.getContentText().slice(0,200));
+        continue;
+      }
+      const j = JSON.parse(r.getContentText());
+      const txt = j.candidates && j.candidates[0] &&
+                  j.candidates[0].content.parts[0].text;
+      if (!txt) continue;
+      const out = JSON.parse(txt);
+      out.ideas = (out.ideas || []).slice(0, 3);
+      out.model = MODELS[i];
+      return out;
+    } catch (err){
+      console.warn(MODELS[i], String(err));
+    }
+  }
+  return {error:'all_models_failed'};
 }
