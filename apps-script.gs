@@ -10,6 +10,9 @@
    4. להעתיק את הכתובת שמסתיימת ב-/exec ולתת לי אותה
    ═══════════════════════════════════════════════════════════════ */
 
+/* מזהה הגיליון — מתוך הכתובת שלו. ריק = הסקריפט מקושר לגיליון ישירות */
+const SHEET_ID = '';
+
 const NOTIFY = 'aviamira5@gmail.com';
 const GANTT  = 'https://aviel112.github.io/strategy-engine/gantt/';
 
@@ -112,7 +115,9 @@ const BLK = {time:'אין זמן', what:'לא יודע מה להעלות', cam:'
              money:'אין תקציב', result:'מעלה ולא קורה כלום'};
 
 function SguiSheet_(){
-  const sh = SpreadsheetApp.getActiveSpreadsheet().getSheets()[0];
+  const ss = SHEET_ID ? SpreadsheetApp.openById(SHEET_ID)
+                      : SpreadsheetApp.getActiveSpreadsheet();
+  const sh = ss.getSheets()[0];
   if (sh.getLastRow() === 0){
     sh.appendRow(HEAD);
     sh.getRange(1, 1, 1, HEAD.length).setFontWeight('bold')
